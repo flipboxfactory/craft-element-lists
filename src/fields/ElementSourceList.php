@@ -11,7 +11,6 @@ namespace flipbox\element\lists\fields;
 use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
-use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\fields\BaseRelationField;
 use flipbox\craft\elements\nestedIndex\web\assets\index\NestedElementIndex;
@@ -101,21 +100,10 @@ class ElementSourceList extends BaseRelationField
     {
         Craft::$app->getView()->registerAssetBundle(NestedElementIndex::class);
 
-        if ($value instanceof ElementQuery) {
-            $value = $value->status(null)
-                ->enabledForSite(false)
-                ->all();
-        } else {
-            if (!is_array($value)) {
-                $value = [];
-            }
-        }
-
         $fieldService = ElementList::getInstance()->getSourceFields();
 
         return [
             'element' => $element,
-            'value' => $value,
             'container' => 'nested-index-' . $this->handle,
             'elementType' => static::elementType(),
             'inputJsClass' => $this->inputJsClass,
