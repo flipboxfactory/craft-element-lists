@@ -1,5 +1,5 @@
 # Element List Field Type for Craft CMS
-[![Join the chat at https://gitter.im/flipboxfactory/craft-element-listss](https://badges.gitter.im/flipboxfactory/craft-element-lists.svg)](https://gitter.im/flipboxfactory/craft-element-lists?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/flipboxfactory/craft-element-lists](https://badges.gitter.im/flipboxfactory/craft-element-lists.svg)](https://gitter.im/flipboxfactory/craft-element-lists?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Latest Version](https://img.shields.io/github/release/flipboxfactory/craft-element-lists.svg?style=flat-square)](https://github.com/flipboxfactory/craft-element-lists/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/flipboxfactory/craft-element-lists/master.svg?style=flat-square)](https://travis-ci.com/flipboxfactory/craft-element-lists)

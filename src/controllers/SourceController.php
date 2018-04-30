@@ -46,12 +46,12 @@ class SourceController extends AbstractController
                     'class' => FlashMessageFilter::class,
                     'actions' => [
                         'associate' => [
-                            204 => Craft::t('element-list', "Element successfully associated."),
-                            401 => Craft::t('element-list', "Failed to associate element.")
+                            204 => Craft::t('element-lists', "Element successfully associated."),
+                            401 => Craft::t('element-lists', "Failed to associate element.")
                         ],
                         'dissociate' => [
-                            204 => Craft::t('element-list', "Element successfully dissociated."),
-                            401 => Craft::t('element-list', "Failed to dissociate element.")
+                            204 => Craft::t('element-lists', "Element successfully dissociated."),
+                            401 => Craft::t('element-lists', "Failed to dissociate element.")
                         ]
                     ]
                 ]

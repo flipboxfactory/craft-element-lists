@@ -31,7 +31,7 @@ class ElementSourceList extends BaseRelationField
     /**
      * @var string Template to use for field rendering
      */
-    protected $inputTemplate = 'element-list/_components/fieldtypes/ElementSource';
+    protected $inputTemplate = 'element-lists/_components/fieldtypes/ElementSource';
 
     /**
      * @var string|null The JS class that should be initialized for the input
@@ -56,7 +56,7 @@ class ElementSourceList extends BaseRelationField
      */
     public static function displayName(): string
     {
-        return Craft::t('element-list', 'Element List');
+        return Craft::t('element-lists', 'Element List');
     }
 
     /**

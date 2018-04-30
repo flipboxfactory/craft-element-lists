@@ -173,7 +173,7 @@ class SourceFields extends SortableFields
             'selectionLabel' => $field->selectionLabel,
             'storageKey' => 'nested.index.input.' . $field->handle,
             'elements' => $this->associatedElementIds($element, $siteId),
-            'addAction' => 'element-list/source/associate',
+            'addAction' => 'element-lists/source/associate',
             'selectParams' => [
                 'source' => $element->getId() ?: null,
                 'field' => $field->id
@@ -199,8 +199,8 @@ class SourceFields extends SortableFields
             'context' => 'index',
             'storageKey' => 'nested.index.' . $field->handle,
             'toolbarFixed' => false,
-            'updateElementsAction' => 'element-list/element-indexes/get-elements',
-            'submitActionsAction' => 'element-list/element-indexes/perform-action',
+            'updateElementsAction' => 'element-lists/element-indexes/get-elements',
+            'submitActionsAction' => 'element-lists/element-indexes/perform-action',
             'criteria' => [
                 'enabledForSite' => null,
                 'siteId' => SiteHelper::ensureSiteId($element->siteId),

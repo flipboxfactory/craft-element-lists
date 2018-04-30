@@ -103,7 +103,7 @@ class RemoveSourceElements extends ElementAction
 
         $this->setMessage(
             Craft::t(
-                'element-list',
+                'element-lists',
                 $this->assembleMessage($query)
             )
         );
@@ -125,6 +125,6 @@ class RemoveSourceElements extends ElementAction
 
         $message .= ' removed.';
 
-        return Craft::t('element-list', $message);
+        return Craft::t('element-lists', $message);
     }
 }

@@ -27,6 +27,6 @@ class UserSourceList extends ElementSourceList
      */
     public static function displayName(): string
     {
-        return parent::displayName() . ': ' . Craft::t('element-list', 'Users');
+        return parent::displayName() . ': ' . Craft::t('element-lists', 'Users');
     }
 }
