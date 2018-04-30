@@ -20,8 +20,8 @@ use flipbox\ember\traits\SiteRules;
  * @since 1.0.0
  *
  * @property int $fieldId
- * @property string $domain
- * @property int $elementId
+ * @property string $targetId
+ * @property string $sourceId
  */
 class Association extends SortableAssociation
 {
