@@ -10,6 +10,7 @@ namespace flipbox\element\lists\fields;
 
 use Craft;
 use craft\elements\User as UserElement;
+use flipbox\element\lists\db\SourceUserElementQuery;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -21,6 +22,11 @@ class UserSourceList extends ElementSourceList
      * @inheritdoc
      */
     const ELEMENT_CLASS = UserElement::class;
+
+    /**
+     * The element query class
+     */
+    const ELEMENT_QUERY_CLASS = SourceUserElementQuery::class;
 
     /**
      * @inheritdoc

@@ -14,6 +14,7 @@ use craft\base\ElementInterface;
 use craft\elements\db\ElementQueryInterface;
 use craft\fields\BaseRelationField;
 use flipbox\craft\elements\nestedIndex\web\assets\index\NestedElementIndex;
+use flipbox\element\lists\db\SourceElementQuery;
 use flipbox\element\lists\ElementList;
 
 /**
@@ -26,6 +27,11 @@ class ElementSourceList extends BaseRelationField
      * The element class
      */
     const ELEMENT_CLASS = Element::class;
+
+    /**
+     * The element query class
+     */
+    const ELEMENT_QUERY_CLASS = SourceElementQuery::class;
 
     /**
      * @var string Template to use for field rendering

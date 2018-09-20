@@ -72,7 +72,8 @@ class SourceFields extends SortableFields
         /** @var ElementSourceList $field */
         $this->ensureField($field);
 
-        $query = new SourceElementQuery($field::ELEMENT_CLASS);
+        $class = $field::ELEMENT_QUERY_CLASS;
+        $query = new $class($field::ELEMENT_CLASS);
 
         if ($field->allowLimit === true && $field->limit !== null) {
             $query->limit($field->limit);
