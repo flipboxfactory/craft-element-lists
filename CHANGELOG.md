@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.1 - 2018-09-20
 ### Added
 - `flipbox\element\lists\db\SourceUserElementQuery` to build a full query for users
 
