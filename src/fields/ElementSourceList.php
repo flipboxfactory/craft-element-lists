@@ -49,6 +49,11 @@ class ElementSourceList extends BaseRelationField
     protected $indexJsClass = 'Craft.NestedElementIndex';
 
     /**
+     * @var bool
+     */
+    protected $ignoreSearchKeywords = true;
+
+    /**
      * @inheritdoc
      */
     protected static function elementType(): string
@@ -117,5 +122,17 @@ class ElementSourceList extends BaseRelationField
             'indexJsClass' => $this->indexJsClass,
             'indexJs' => $fieldService->getIndexJs($this, $element)
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSearchKeywords($value, ElementInterface $element): string
+    {
+        if ($this->ignoreSearchKeywords === true) {
+            return '';
+        }
+
+        return parent::getSearchKeywords($value, $element);
     }
 }
