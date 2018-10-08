@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.2 - 2018-10-08
 ### Added
 - `flipbox\element\lists\fields\ElementSourceList::$ignoreSearchKeywords` param to ignore recursively trying to generate keywords 
 
