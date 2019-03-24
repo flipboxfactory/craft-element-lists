@@ -19,7 +19,9 @@ use flipbox\craft\ember\helpers\SiteHelper;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  *
- * @property int|null $max
+ * @property int|null $id
+ * @property int|null $limit
+ * @property bool $allowLimit
  */
 trait NormalizeValueTrait
 {
@@ -145,7 +147,7 @@ trait NormalizeValueTrait
         return new Association([
             'fieldId' => $this->id,
             'targetId' => $value,
-            'sourceId' => $element->getId(),
+            'sourceId' => $element === null ? null : $element->getId(),
             'siteId' => SiteHelper::ensureSiteId($element === null ? null : $element->siteId),
             'sortOrder' => $sortOrder++
         ]);

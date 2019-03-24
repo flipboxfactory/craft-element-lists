@@ -23,8 +23,8 @@ use flipbox\craft\ember\helpers\SiteHelper;
  * @property string $inputJsClass
  * @property string $handle
  * @property int $id
- * @property string $viewMode
- * @property int $limit
+ * @property string|null $viewMode
+ * @property int|null $limit
  * @property string $selectionLabel
  */
 trait InputTrait
