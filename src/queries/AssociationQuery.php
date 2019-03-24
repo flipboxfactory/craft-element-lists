@@ -9,6 +9,7 @@
 namespace flipbox\craft\element\lists\queries;
 
 use Craft;
+use craft\base\ElementInterface;
 use craft\db\QueryAbortedException;
 use craft\helpers\Db;
 use flipbox\craft\ember\helpers\QueryHelper;
@@ -68,7 +69,7 @@ class AssociationQuery extends CacheableActiveQuery
     }
 
     /**
-     * @param int|int[]|null $value
+     * @param int|int[]|string|string[]|ElementInterface|ElementInterface[]|false|null $value
      * @return static
      */
     public function setTargetId($value)
@@ -77,7 +78,7 @@ class AssociationQuery extends CacheableActiveQuery
     }
 
     /**
-     * @param int|int[]|null $value
+     * @param int|int[]|string|string[]|ElementInterface|ElementInterface[]|false|null $value
      * @return static
      */
     public function targetId($value)
@@ -86,7 +87,7 @@ class AssociationQuery extends CacheableActiveQuery
     }
 
     /**
-     * @param int|int[]|null $value
+     * @param int|int[]|string|string[]|ElementInterface|ElementInterface[]|false|null $value
      * @return static
      */
     public function setTarget($value)
@@ -96,7 +97,7 @@ class AssociationQuery extends CacheableActiveQuery
     }
 
     /**
-     * @param int|int[]|null $value
+     * @param int|int[]|string|string[]|ElementInterface|ElementInterface[]|false|null $value
      * @return static
      */
     public function target($value)
@@ -106,7 +107,7 @@ class AssociationQuery extends CacheableActiveQuery
 
 
     /**
-     * @param int|int[]|null $value
+     * @param int|int[]|string|string[]|ElementInterface|ElementInterface[]|false|null $value
      * @return static
      */
     public function setSourceId($value)
@@ -115,7 +116,7 @@ class AssociationQuery extends CacheableActiveQuery
     }
 
     /**
-     * @param int|int[]|null $value
+     * @param int|int[]|string|string[]|ElementInterface|ElementInterface[]|false|null $value
      * @return static
      */
     public function sourceId($value)
@@ -124,7 +125,7 @@ class AssociationQuery extends CacheableActiveQuery
     }
 
     /**
-     * @param int|int[]|null $value
+     * @param int|int[]|string|string[]|ElementInterface|ElementInterface[]|false|null $value
      * @return static
      */
     public function setSource($value)
@@ -134,7 +135,7 @@ class AssociationQuery extends CacheableActiveQuery
     }
 
     /**
-     * @param int|int[]|null $value
+     * @param int|int[]|string|string[]|ElementInterface|ElementInterface[]|false|null $value
      * @return static
      */
     public function source($value)
