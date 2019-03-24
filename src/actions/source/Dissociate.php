@@ -8,6 +8,7 @@
 
 namespace flipbox\craft\element\lists\actions\source;
 
+use craft\base\Field;
 use flipbox\craft\ember\actions\ManageTrait;
 use flipbox\craft\ember\helpers\SiteHelper;
 use flipbox\craft\element\lists\actions\ResolverTrait;
@@ -47,6 +48,8 @@ class Dissociate extends Action
         $field = $this->resolveField($field);
         $source = $this->resolveElement($source);
         $target = $this->resolveElement($target);
+
+        /** @var Field $field */
 
         $siteId = SiteHelper::ensureSiteId($siteId ?: $source->siteId);
 
