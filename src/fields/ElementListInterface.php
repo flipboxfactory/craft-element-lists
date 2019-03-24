@@ -6,15 +6,15 @@
  * @link       https://www.flipboxfactory.com/software/element-lists/
  */
 
-namespace flipbox\element\lists\db;
+namespace flipbox\craft\element\lists\fields;
 
-use craft\elements\db\UserQuery;
-use flipbox\craft\sortable\associations\db\SortableAssociationQueryInterface;
+use craft\base\FieldInterface;
+use craft\base\PreviewableFieldInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.1
+ * @since 1.0.0
  */
-class SourceUserElementQuery extends UserQuery implements SortableAssociationQueryInterface
+interface ElementListInterface extends FieldInterface, PreviewableFieldInterface
 {
 }

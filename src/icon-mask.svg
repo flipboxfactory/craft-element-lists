@@ -1,1 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?><svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>Element List</title><desc>Element List for Craft CMS (by Flipbox)</desc><defs></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Element-List" transform="translate(-652.000000, -63.000000)" fill="#000000" fill-rule="nonzero"><g id="Mask" transform="translate(652.000000, 63.000000)"><path d="M0.113079334,0.112991369 L0.113079334,99.5856361 L99.5857137,99.5856361 L99.5857137,0.112991369 L0.113079334,0.112991369 Z M46.1556238,66.4817579 L10.733853,66.4817579 L10.733853,55.9074015 L46.1556238,55.9074015 L46.1556238,66.4817579 Z M46.1556238,44.8551608 L10.733853,44.8551608 L10.733853,34.2808043 L46.1556238,34.2808043 L46.1556238,44.8551608 Z M46.1556238,23.2285688 L10.733853,23.2285688 L10.733853,12.6542124 L46.1556238,12.6542124 L46.1556238,23.2285688 Z M90.4329718,81.0907603 L55.0111803,81.0907603 L55.0111803,12.6542124 L90.4329718,12.6542124 L90.4329718,81.0907603 Z" id="Shape-Copy"></path><rect id="Rectangle-path-Copy-4" x="60.8825721" y="66.3076798" width="23.6781955" height="4.14469311"></rect><rect id="Rectangle-path-Copy-3" x="60.8825721" y="51.9691137" width="23.6781955" height="4.14469311"></rect><rect id="Rectangle-path-Copy-2" x="60.8825721" y="37.6307545" width="23.6781955" height="4.14469311"></rect><rect id="Rectangle-path-Copy" x="60.8825721" y="23.2921884" width="23.6781955" height="4.14469311"></rect></g></g></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg"
+>
+    <title>Element List</title>
+    <desc>Element List for Craft CMS (by Flipbox)</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Element-List" transform="translate(-652.000000, -63.000000)" fill="#000000" fill-rule="nonzero">
+            <g id="Mask" transform="translate(652.000000, 63.000000)">
+                <path d="M0.113079334,0.112991369 L0.113079334,99.5856361 L99.5857137,99.5856361 L99.5857137,0.112991369 L0.113079334,0.112991369 Z M46.1556238,66.4817579 L10.733853,66.4817579 L10.733853,55.9074015 L46.1556238,55.9074015 L46.1556238,66.4817579 Z M46.1556238,44.8551608 L10.733853,44.8551608 L10.733853,34.2808043 L46.1556238,34.2808043 L46.1556238,44.8551608 Z M46.1556238,23.2285688 L10.733853,23.2285688 L10.733853,12.6542124 L46.1556238,12.6542124 L46.1556238,23.2285688 Z M90.4329718,81.0907603 L55.0111803,81.0907603 L55.0111803,12.6542124 L90.4329718,12.6542124 L90.4329718,81.0907603 Z"
+                      id="Shape-Copy"></path>
+                <rect id="Rectangle-path-Copy-4" x="60.8825721" y="66.3076798" width="23.6781955"
+                      height="4.14469311"></rect>
+                <rect id="Rectangle-path-Copy-3" x="60.8825721" y="51.9691137" width="23.6781955"
+                      height="4.14469311"></rect>
+                <rect id="Rectangle-path-Copy-2" x="60.8825721" y="37.6307545" width="23.6781955"
+                      height="4.14469311"></rect>
+                <rect id="Rectangle-path-Copy" x="60.8825721" y="23.2921884" width="23.6781955"
+                      height="4.14469311"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

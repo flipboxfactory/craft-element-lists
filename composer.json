@@ -1,6 +1,6 @@
 {
   "name": "flipboxfactory/craft-element-lists",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Simple Element lists",
   "type": "craft-plugin",
   "keywords": [
@@ -10,11 +10,16 @@
     "craft cms",
     "yii2"
   ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Flipbox Digital",
+      "homepage": "https://flipboxdigital.com/"
+    }
+  ],
   "require": {
     "craftcms/cms": "^3.0",
-    "flipboxfactory/craft-ember": "^1.0",
-    "flipboxfactory/craft-elements-nested-index": "^1.0",
-    "flipboxfactory/craft-sortable-associations": "^1.0"
+    "flipboxfactory/craft-ember": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^5.0",
@@ -23,38 +28,35 @@
   },
   "autoload": {
     "psr-4": {
-      "flipbox\\element\\lists\\": "src/"
+      "flipbox\\craft\\element\\lists\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "flipbox\\element\\lists\\tests\\": "tests/src/"
+      "flipbox\\craft\\element\\lists\\tests\\": "tests/src/"
     }
   },
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Flipbox Digital",
-      "homepage": "https://flipboxdigital.com/"
-    }
-  ],
   "support": {
-    "email": "support@flipboxdigital.com",
-    "issues": "https://github.com/flipboxfactory/domains/issues?state=open",
-    "source": "https://github.com/flipboxfactory/domains",
-    "docs": "https://github.com/flipboxfactory/domains",
-    "rss": "https://github.com/flipboxfactory/domains/commits/master.atom"
+    "email": "support@flipboxfactory.com",
+    "issues": "https://github.com/flipboxfactory/craft-element-lists/issues?state=open",
+    "source": "https://github.com/flipboxfactory/craft-element-lists",
+    "docs": "https://github.com/flipboxfactory/craft-element-lists",
+    "rss": "https://github.com/flipboxfactory/craft-element-lists/commits/master.atom"
   },
   "extra": {
     "name": "Element Lists",
     "handle": "element-lists",
-    "class": "flipbox\\element\\lists\\ElementList",
+    "class": "flipbox\\craft\\element\\lists\\ElementList",
+    "developer": "Flipbox Digital",
+    "developerUrl": "https://www.flipboxdigital.com",
+    "changelogUrl": "https://raw.githubusercontent.com/flipboxfactory/craft-salesforce/master/CHANGELOG.md",
+    "documentationUrl": "https://salesforce.flipboxfactory.com",
     "hasCpSettings": false,
     "hasCpSection": false,
     "schemaVersion": "1.0.0",
-    "components": {
-      "sourceAssociations": "flipbox\\element\\lists\\services\\SourceAssociations",
-      "sourceFields": "flipbox\\element\\lists\\services\\SourceFields"
+    "branch-alias": {
+      "dev-master": "1.0.x-dev",
+      "dev-develop": "2.0.x-dev"
     }
   }
 }

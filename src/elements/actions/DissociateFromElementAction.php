@@ -6,22 +6,24 @@
  * @link       https://www.flipboxfactory.com/software/element-lists/
  */
 
-namespace flipbox\element\lists\elements\actions;
+namespace flipbox\craft\element\lists\elements\actions;
 
 use Craft;
 use craft\base\ElementAction;
+use craft\base\Field;
 use craft\base\FieldInterface;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\db\UserQuery;
-use flipbox\element\lists\ElementList;
-use flipbox\element\lists\records\Association;
+use craft\helpers\ArrayHelper;
+use flipbox\craft\element\lists\ElementList;
+use flipbox\craft\element\lists\records\Association;
 use yii\base\Exception;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class RemoveSourceElements extends ElementAction
+class DissociateFromElementAction extends ElementAction
 {
     /**
      * @var string|int
@@ -60,16 +62,18 @@ class RemoveSourceElements extends ElementAction
      */
     public function getTriggerLabel(): string
     {
-        return 'Remove';
+        return ElementList::t('Remove');
     }
 
     /**
      * @inheritdoc
-     * @param UserQuery $query
+     * @throws \Throwable
+     * @throws \craft\errors\SiteNotFoundException
+     * @throws \yii\db\StaleObjectException
      */
     public function performAction(ElementQueryInterface $query): bool
     {
-        /** @var FieldInterface $field */
+        /** @var Field $field */
         if (null === ($field = Craft::$app->getFields()->getFieldById($this->fieldId))) {
             throw new Exception(sprintf(
                 "Field %s must be an instance of '%s'",
@@ -84,47 +88,61 @@ class RemoveSourceElements extends ElementAction
 
         $siteId = Craft::$app->getSites()->getCurrentSite()->id;
 
-        foreach ($query->all() as $target) {
-            $model = new Association([
-                'fieldId' => $field->id,
-                'sourceId' => $source->getId(),
-                'targetId' => $target->getId(),
-                'siteId' => $siteId,
-            ]);
+        // Get the count because it's cleared when dissociated
+        $count = $query->count();
 
-            if (!ElementList::getInstance()->getSourceAssociations()->dissociate($model)) {
-                throw new Exception(sprintf(
-                    "Unable to disassociate element '%s' from element '%s'",
-                    (string)$source->getId(),
-                    (string)$target->getId()
-                ));
+        foreach ($query->all() as $target) {
+            if (!$record = Association::find()
+                ->fieldId($field->id)
+                ->sourceId($source->getId())
+                ->targetId($target->getId())
+                ->siteId($siteId)
+                ->one()
+            ) {
+                continue;
+            }
+
+            if (!$record->delete()) {
+                $this->setMessage(
+                    $this->assembleFailMessage($query)
+                );
             }
         }
 
-        $this->setMessage(
-            Craft::t(
-                'element-lists',
-                $this->assembleMessage($query)
-            )
-        );
-
+        $this->setMessage($this->assembleSuccessMessage($count));
         return true;
     }
 
     /**
-     * @param ElementQueryInterface $query
+     * @param ElementQueryInterface|UserQuery $query
      * @return string
      */
-    private function assembleMessage(ElementQueryInterface $query): string
+    private function assembleFailMessage(ElementQueryInterface $query): string
+    {
+        $message = 'Failed to remove element: ';
+
+        $users = $query->all();
+        $badEmails = ArrayHelper::index($users, 'id');
+
+        $message .= implode(", ", $badEmails);
+
+        return ElementList::t($message);
+    }
+
+    /**
+     * @param int $count
+     * @return string
+     */
+    private function assembleSuccessMessage(int $count): string
     {
         $message = 'Element';
 
-        if ($query->count() != 1) {
-            $message = $query->count() . ' ' . $message . 's';
+        if ($count != 1) {
+            $message = '{count} ' . $message . 's';
         }
 
-        $message .= ' removed.';
+        $message .= ' dissociated.';
 
-        return Craft::t('element-lists', $message);
+        return ElementList::t($message, ['count' => $count]);
     }
 }

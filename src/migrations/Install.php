@@ -6,13 +6,13 @@
  * @link       https://www.flipboxfactory.com/software/element-lists/
  */
 
-namespace flipbox\element\lists\migrations;
+namespace flipbox\craft\element\lists\migrations;
 
 use craft\db\Migration;
 use craft\records\Element;
 use craft\records\Field;
 use craft\records\Site;
-use flipbox\element\lists\records\Association;
+use flipbox\craft\element\lists\records\Association;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

@@ -6,12 +6,12 @@
  * @link       https://www.flipboxfactory.com/software/element-lists/
  */
 
-namespace flipbox\element\lists\controllers;
+namespace flipbox\craft\element\lists\controllers;
 
 use Craft;
 use craft\base\Element;
 use craft\events\RegisterElementActionsEvent;
-use flipbox\element\lists\elements\actions\RemoveSourceElements;
+use flipbox\craft\element\lists\elements\actions\DissociateFromElementAction;
 use yii\base\Event;
 
 /**
@@ -31,7 +31,7 @@ class ElementIndexesController extends \craft\controllers\ElementIndexesControll
             function (RegisterElementActionsEvent $event) {
                 $event->actions = [
                     [
-                        'type' => RemoveSourceElements::class,
+                        'type' => DissociateFromElementAction::class,
                         'sourceId' => $event->data['sourceId'] ?? null,
                         'fieldId' => $event->data['fieldId'] ?? null
                     ]

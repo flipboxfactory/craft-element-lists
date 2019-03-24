@@ -6,16 +6,17 @@
  * @link       https://www.flipboxfactory.com/software/element-lists/
  */
 
-namespace flipbox\element\lists\controllers;
+namespace flipbox\craft\element\lists\controllers;
 
 use Craft;
 use craft\helpers\ArrayHelper;
-use flipbox\element\lists\actions\source\Associate;
-use flipbox\element\lists\actions\source\Dissociate;
-use flipbox\ember\controllers\AbstractController;
-use flipbox\ember\filters\FlashMessageFilter;
-use flipbox\ember\filters\ModelErrorFilter;
-use flipbox\ember\filters\RedirectFilter;
+use flipbox\craft\ember\controllers\AbstractController;
+use flipbox\craft\ember\filters\FlashMessageFilter;
+use flipbox\craft\ember\filters\ModelErrorFilter;
+use flipbox\craft\ember\filters\RedirectFilter;
+use flipbox\craft\element\lists\actions\source\Associate;
+use flipbox\craft\element\lists\actions\source\Dissociate;
+use flipbox\craft\element\lists\ElementList;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -36,7 +37,7 @@ class SourceController extends AbstractController
                     'only' => ['associate', 'dissociate'],
                     'actions' => [
                         'associate' => [204],
-                        'dissociate' => [204],
+                        'dissociate' => [201],
                     ]
                 ],
                 'error' => [
@@ -46,12 +47,12 @@ class SourceController extends AbstractController
                     'class' => FlashMessageFilter::class,
                     'actions' => [
                         'associate' => [
-                            204 => Craft::t('element-lists', "Element successfully associated."),
-                            401 => Craft::t('element-lists', "Failed to associate element.")
+                            204 => ElementList::t("Element successfully associated."),
+                            401 => ElementList::t("Failed to associate element.")
                         ],
                         'dissociate' => [
-                            204 => Craft::t('element-lists', "Element successfully dissociated."),
-                            401 => Craft::t('element-lists', "Failed to dissociate element.")
+                            201 => ElementList::t("Element successfully dissociated."),
+                            401 => ElementList::t("Failed to dissociate element.")
                         ]
                     ]
                 ]
