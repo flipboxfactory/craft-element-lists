@@ -37,6 +37,14 @@ trait InputTrait
     abstract protected static function elementType(): string;
 
     /**
+     * Returns an array of the source keys the field should be able to select elements from.
+     *
+     * @param ElementInterface|null $element
+     * @return array|string
+     */
+    abstract protected function inputSources(ElementInterface $element = null);
+
+    /**
      * @param null $value
      * @param ElementInterface|null $element
      * @return array
