@@ -107,7 +107,8 @@ trait InputTrait
      * @param ElementInterface $element
      * @return array
      */
-    private function getIndexJs(ElementInterface $element = null): array {
+    private function getIndexJs(ElementInterface $element = null): array
+    {
 
         /** @var Element $element */
         $elementId = ($element !== null && $element->getId() !== null) ? $element->getId() : false;
