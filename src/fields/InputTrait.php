@@ -21,6 +21,11 @@ use flipbox\craft\ember\helpers\SiteHelper;
  *
  * @property string $inputTemplate
  * @property string $inputJsClass
+ * @property string $handle
+ * @property int $id
+ * @property string $viewMode
+ * @property int $limit
+ * @property string $selectionLabel
  */
 trait InputTrait
 {
@@ -69,10 +74,10 @@ trait InputTrait
      * @param ElementInterface $element
      * @return array
      */
-    private function getInputJs(array $elementIds, ElementInterface $element): array
+    private function getInputJs(array $elementIds, ElementInterface $element = null): array
     {
         /** @var Element $element */
-        $siteId = SiteHelper::ensureSiteId($element->siteId);
+        $siteId = SiteHelper::ensureSiteId($element ? $element->siteId : null);
 
         $selectionCriteria = [
             'enabledForSite' => null,
@@ -102,12 +107,10 @@ trait InputTrait
      * @param ElementInterface $element
      * @return array
      */
-    private function getIndexJs(
-        ElementInterface $element
-    ): array {
+    private function getIndexJs(ElementInterface $element = null): array {
 
         /** @var Element $element */
-        $elementId = $element->getId() !== null ? $element->getId() : false;
+        $elementId = ($element !== null && $element->getId() !== null) ? $element->getId() : false;
 
         return [
             'source' => 'nested',
@@ -123,7 +126,7 @@ trait InputTrait
             'loadMoreElementsAction' => 'element-lists/element-indexes/get-more-elements',
             'criteria' => [
                 'enabledForSite' => null,
-                'siteId' => SiteHelper::ensureSiteId($element->siteId),
+                'siteId' => SiteHelper::ensureSiteId($element ? $element->siteId : null),
                 $this->handle => $elementId
             ],
             'viewParams' => [
