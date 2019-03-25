@@ -1,6 +1,8 @@
 Changelog
 =========
 
+### Unlimited
+
 ## 1.0.2 - 2018-10-08
 ### Added
 - `flipbox\craft\element\lists\fields\ElementSourceList::$ignoreSearchKeywords` param to ignore recursively trying to generate keywords 
