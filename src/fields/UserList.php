@@ -9,12 +9,13 @@
 namespace flipbox\craft\element\lists\fields;
 
 use craft\fields\Users;
+use flipbox\craft\element\lists\ElementList;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class UserList extends Users implements ElementListInterface
+class UserList extends Users
 {
     use ElementListTrait;
 
@@ -24,7 +25,16 @@ class UserList extends Users implements ElementListInterface
     public function init()
     {
         parent::init();
+
         $this->inputTemplate = 'element-lists/_components/fieldtypes/ElementSource';
         $this->inputJsClass = 'Craft.NestedElementIndexSelectInput';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function displayName(): string
+    {
+        return ElementList::t('User List');
     }
 }

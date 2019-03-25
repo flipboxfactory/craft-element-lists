@@ -15,7 +15,7 @@ use flipbox\craft\element\lists\ElementList;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class AssetList extends Assets implements ElementListInterface
+class AssetList extends Assets
 {
     use ElementListTrait;
 
@@ -25,10 +25,10 @@ class AssetList extends Assets implements ElementListInterface
     public function init()
     {
         parent::init();
+
         $this->inputTemplate = 'element-lists/_components/fieldtypes/ElementSource';
         $this->inputJsClass = 'Craft.NestedElementIndexSelectInput';
     }
-
 
     /**
      * @inheritdoc

@@ -11,7 +11,7 @@ namespace flipbox\craft\element\lists\actions;
 use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
-use flipbox\craft\element\lists\fields\ElementListInterface;
+use craft\base\FieldInterface;
 use yii\web\HttpException;
 
 /**
@@ -22,19 +22,19 @@ trait ResolverTrait
 {
     /**
      * @param string $field
-     * @return ElementListInterface
+     * @return FieldInterface
      * @throws HttpException
      */
-    protected function resolveField(string $field): ElementListInterface
+    protected function resolveField(string $field): FieldInterface
     {
         $field = is_numeric($field) ?
             Craft::$app->getFields()->getFieldbyId($field) :
             Craft::$app->getFields()->getFieldByHandle($field);
 
-        if (!$field instanceof ElementListInterface) {
+        if (!$field instanceof FieldInterface) {
             throw new HttpException(400, sprintf(
                 "Field must be an instance of '%s', '%s' given.",
-                ElementListInterface::class,
+                FieldInterface::class,
                 get_class($field)
             ));
         }

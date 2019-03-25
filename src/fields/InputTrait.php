@@ -12,6 +12,7 @@ use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\elements\db\ElementQueryInterface;
+use craft\helpers\ArrayHelper;
 use flipbox\craft\elements\nestedIndex\web\assets\index\NestedElementIndex;
 use flipbox\craft\ember\helpers\SiteHelper;
 
@@ -62,7 +63,14 @@ trait InputTrait
 
         Craft::$app->getView()->registerAssetBundle(NestedElementIndex::class);
 
+        $sources = Craft::$app->getElementIndexes()->getSources(static::elementType());
+        foreach ($sources as &$source) {
+            ArrayHelper::remove($source, 'structureEditable');
+            ArrayHelper::remove($source, 'structureId');
+        }
+
         return [
+            'sources' => $sources,
             'element' => $element,
             'container' => 'nested-index-' . $this->handle,
             'elementType' => static::elementType(),

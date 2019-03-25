@@ -78,6 +78,8 @@ trait ModifyElementQueryTrait
         $query->query->innerJoin($joinTable, "[[{$alias}.targetId]] = [[subquery.elementsId]]");
         $query->subQuery->innerJoin($joinTable, "[[{$alias}.targetId]] = [[elements.id]]");
 
+        $query->subQuery->addSelect(["{$alias}.sortOrder"]);
+
         $query->subQuery->andWhere(
             Db::parseParam($alias . '.fieldId', $this->id)
         );
