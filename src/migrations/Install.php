@@ -2,8 +2,8 @@
 
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
- * @license    https://www.flipboxfactory.com/software/element-lists/license
- * @link       https://www.flipboxfactory.com/software/element-lists/
+ * @license    https://github.com/flipboxfactory/craft-element-lists/LICENSE
+ * @link       https://github.com/flipboxfactory/craft-element-lists/
  */
 
 namespace flipbox\craft\element\lists\migrations;

@@ -2,8 +2,8 @@
 
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
- * @license    https://github.com/flipboxfactory/craft-integration/blob/master/LICENSE
- * @link       https://github.com/flipboxfactory/craft-integration/
+ * @license    https://github.com/flipboxfactory/craft-element-lists/LICENSE
+ * @link       https://github.com/flipboxfactory/craft-element-lists/
  */
 
 namespace flipbox\craft\element\lists\fields;

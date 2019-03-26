@@ -2,8 +2,8 @@
 
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
- * @license    https://www.flipboxfactory.com/software/element-lists/license
- * @link       https://www.flipboxfactory.com/software/element-lists/
+ * @license    https://github.com/flipboxfactory/craft-element-lists/LICENSE
+ * @link       https://github.com/flipboxfactory/craft-element-lists/
  */
 
 namespace flipbox\craft\element\lists\records;
@@ -116,7 +116,7 @@ class Association extends ActiveRecord
     {
         $this->ensureSortOrder(
             [
-                'targetId' => $this->targetId,
+                'sourceId' => $this->sourceId,
                 'fieldId' => $this->fieldId,
                 'siteId' => $this->siteId
             ]
@@ -132,9 +132,9 @@ class Association extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         $this->autoReOrder(
-            'sourceId',
+            'targetId',
             [
-                'targetId' => $this->targetId,
+                'sourceId' => $this->sourceId,
                 'fieldId' => $this->fieldId,
                 'siteId' => $this->siteId
             ]
@@ -150,9 +150,9 @@ class Association extends ActiveRecord
     public function afterDelete()
     {
         $this->sequentialOrder(
-            'sourceId',
+            'targetId',
             [
-                'targetId' => $this->targetId,
+                'sourceId' => $this->sourceId,
                 'fieldId' => $this->fieldId,
                 'siteId' => $this->siteId
             ]

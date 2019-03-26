@@ -54,7 +54,7 @@
     "documentationUrl": "https://salesforce.flipboxfactory.com",
     "hasCpSettings": false,
     "hasCpSection": false,
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "branch-alias": {
       "dev-master": "1.0.x-dev",
       "dev-develop": "2.0.x-dev"
