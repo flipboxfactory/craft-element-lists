@@ -75,5 +75,5 @@ Element Lists also supports eager-loading.  Simply follow the native [nested set
 - [Flipbox Digital](https://github.com/flipbox)
 
 [Element Query Interface]: https://docs.craftcms.com/v3/dev/element-queries/#executing-element-queries
-[Plugin Store]: https://plugins.craftcms.com/
-[Element List]: https://plugins.craftcms.com/
+[Plugin Store]: https://plugins.craftcms.com/element-lists
+[Element List]: https://plugins.craftcms.com/element-lists
