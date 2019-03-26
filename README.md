@@ -50,8 +50,8 @@ Similar to [native relational fields](https://docs.craftcms.com/v3/relations.htm
 Loop through field relations:
 ```twig
 <ul>
-    {% for element in element.fieldHandle.all() %}
-        <li>{{ element.id }} - {{ element.customField }}</li>
+    {% for relatedElement in element.fieldHandle.all() %}
+        <li>{{ relatedElement.id }} - {{ relatedElement.someCustomField }}</li>
     {% endfor %}
 </ul>
 ```
