@@ -12,21 +12,21 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\db\QueryAbortedException;
 use craft\helpers\Db;
+use flipbox\craft\element\lists\records\Association;
 use flipbox\craft\ember\helpers\QueryHelper;
 use flipbox\craft\ember\queries\AuditAttributesTrait;
 use flipbox\craft\ember\queries\CacheableActiveQuery;
 use flipbox\craft\ember\queries\FieldAttributeTrait;
 use flipbox\craft\ember\queries\SiteAttributeTrait;
-use flipbox\craft\integration\records\IntegrationAssociation;
 use yii\db\Query;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  *
- * @method IntegrationAssociation[] getCachedResult()
- * @method IntegrationAssociation[] all()
- * @method IntegrationAssociation one()
+ * @method Association[] getCachedResult()
+ * @method Association[] all()
+ * @method Association one()
  */
 class AssociationQuery extends CacheableActiveQuery
 {
