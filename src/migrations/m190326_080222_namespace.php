@@ -9,9 +9,7 @@
 namespace flipbox\craft\element\lists\migrations;
 
 use craft\db\Migration;
-use craft\helpers\ArrayHelper;
 use craft\helpers\Json;
-use craft\helpers\StringHelper;
 use craft\records\Field;
 use flipbox\craft\element\lists\fields\UserList;
 
