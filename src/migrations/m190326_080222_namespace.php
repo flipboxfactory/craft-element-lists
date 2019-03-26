@@ -21,11 +21,9 @@ class m190326_080222_namespace extends Migration
     public function safeUp()
     {
         $records = Field::find()
-            ->andWhere(
-                [
+            ->andWhere([
                 'type' => "flipbox\\element\\lists\\fields\\UserSourceList"
-                ]
-            )
+            ])
             ->all();
 
         $success = true;
