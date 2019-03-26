@@ -28,9 +28,7 @@ class m190326_080222_namespace extends Migration
 
         $success = true;
 
-        /**
- * @var Field $record
-*/
+        /** @var Field $record */
         foreach ($records as $record) {
             $record->type = UserList::class;
 
