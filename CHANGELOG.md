@@ -1,7 +1,9 @@
 Changelog
 =========
 
-### Unlimited
+## 2.0.0 - 2019-03-26
+### Changed
+- Namespacing from `flipbox\element\list\*` to `flipbox\craft\element\list\*`
 
 ## 1.0.2 - 2018-10-08
 ### Added
