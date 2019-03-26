@@ -16,6 +16,7 @@ use craft\services\Fields;
 use craft\web\View;
 use flipbox\craft\element\lists\fields\AssetList;
 use flipbox\craft\element\lists\fields\CategoryList;
+use flipbox\craft\element\lists\fields\EntryList;
 use flipbox\craft\ember\modules\LoggerTrait;
 use flipbox\craft\element\lists\fields\UserList;
 use yii\base\Event;
@@ -47,9 +48,10 @@ class ElementList extends Plugin
             Fields::class,
             Fields::EVENT_REGISTER_FIELD_TYPES,
             function (RegisterComponentTypesEvent $event) {
-                $event->types[] = UserList::class;
-                $event->types[] = CategoryList::class;
                 $event->types[] = AssetList::class;
+                $event->types[] = CategoryList::class;
+                $event->types[] = EntryList::class;
+                $event->types[] = UserList::class;
             }
         );
 

@@ -35,20 +35,6 @@ class Association extends ActiveRecord
 
     /**
      * @inheritdoc
-     *
-     * @deprecated
-     */
-    const TARGET_ATTRIBUTE = 'targetId';
-
-    /**
-     * @inheritdoc
-     *
-     * @deprecated
-     */
-    const SOURCE_ATTRIBUTE = 'sourceId';
-
-    /**
-     * @inheritdoc
      */
     protected $getterPriorityAttributes = ['fieldId', 'siteId'];
 
