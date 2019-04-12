@@ -31,7 +31,7 @@ class RecordResponseTransformer
      */
     public static function transform(Association $record): array
     {
-        if($record->hasErrors()) {
+        if ($record->hasErrors()) {
             return [
                 'errors' => $record->getFirstErrors()
             ];
