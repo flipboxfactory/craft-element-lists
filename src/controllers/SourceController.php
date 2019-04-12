@@ -10,13 +10,16 @@ namespace flipbox\craft\element\lists\controllers;
 
 use Craft;
 use craft\helpers\ArrayHelper;
+use flipbox\craft\element\lists\transformers\RecordResponseTransformer;
 use flipbox\craft\ember\controllers\AbstractController;
+use flipbox\craft\ember\filters\CallableFilter;
 use flipbox\craft\ember\filters\FlashMessageFilter;
 use flipbox\craft\ember\filters\ModelErrorFilter;
 use flipbox\craft\ember\filters\RedirectFilter;
 use flipbox\craft\element\lists\actions\source\Associate;
 use flipbox\craft\element\lists\actions\source\Dissociate;
 use flipbox\craft\element\lists\ElementList;
+use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -40,6 +43,22 @@ class SourceController extends AbstractController
                         'dissociate' => [201],
                     ]
                 ],
+                'transform' => [
+                    'class' => CallableFilter::class,
+                    'formats' => [
+                        '*' => Response::FORMAT_JSON
+                    ],
+                    'actions' => [
+                        'associate' => [
+                            RecordResponseTransformer::class,
+                            'transform'
+                        ],
+                        'dissociate' => [
+                            RecordResponseTransformer::class,
+                            'transform'
+                        ],
+                    ]
+                ],
                 'error' => [
                     'class' => ModelErrorFilter::class
                 ],
@@ -48,11 +67,11 @@ class SourceController extends AbstractController
                     'actions' => [
                         'associate' => [
                             204 => ElementList::t("Element successfully associated."),
-                            401 => ElementList::t("Failed to associate element.")
+                            400 => ElementList::t("Failed to associate element.")
                         ],
                         'dissociate' => [
                             201 => ElementList::t("Element successfully dissociated."),
-                            401 => ElementList::t("Failed to dissociate element.")
+                            400 => ElementList::t("Failed to dissociate element.")
                         ]
                     ]
                 ]
@@ -70,7 +89,6 @@ class SourceController extends AbstractController
             'dissociate' => ['post', 'delete'],
         ];
     }
-
 
     /**
      * @param string|int|null $source

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 2.0.1 - 2019-04-12
+### Added
+- Returning an error json if saving an association errors.
+
 ## 2.0.0 - 2019-03-26
 ### Changed
 - Namespacing from `flipbox\element\list\*` to `flipbox\craft\element\list\*`
