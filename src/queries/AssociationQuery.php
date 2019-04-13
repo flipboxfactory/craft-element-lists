@@ -17,7 +17,6 @@ use flipbox\craft\ember\helpers\QueryHelper;
 use flipbox\craft\ember\queries\AuditAttributesTrait;
 use flipbox\craft\ember\queries\CacheableActiveQuery;
 use flipbox\craft\ember\queries\FieldAttributeTrait;
-use flipbox\craft\ember\queries\SiteAttributeTrait;
 use yii\db\Query;
 
 /**
@@ -32,7 +31,7 @@ class AssociationQuery extends CacheableActiveQuery
 {
     use AuditAttributesTrait,
         FieldAttributeTrait,
-        SiteAttributeTrait;
+        SourceSiteAttributeTrait;
 
     /**
      * @var int|null Sort order

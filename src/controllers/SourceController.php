@@ -94,10 +94,11 @@ class SourceController extends AbstractController
      * @param string|int|null $source
      * @param string|int|null $target
      * @param string|int|null $field
+     * @param string|int|null $site
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionAssociate($source = null, $target = null, $field = null)
+    public function actionAssociate($source = null, $target = null, $field = null, $site = null)
     {
         if (null === $source) {
             $source = Craft::$app->getRequest()->getBodyParam('source');
@@ -109,6 +110,10 @@ class SourceController extends AbstractController
 
         if (null === $field) {
             $field = Craft::$app->getRequest()->getBodyParam('field');
+        }
+
+        if (null === $site) {
+            $site = Craft::$app->getRequest()->getBodyParam('site');
         }
 
         /** @var Associate $action */
@@ -123,7 +128,8 @@ class SourceController extends AbstractController
         return $action->runWithParams([
             'source' => $source,
             'target' => $target,
-            'field' => $field
+            'field' => $field,
+            'siteId' => $site
         ]);
     }
 
@@ -131,10 +137,11 @@ class SourceController extends AbstractController
      * @param string|int|null $source
      * @param string|int|null $target
      * @param string|int|null $field
+     * @param string|int|null $site
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function actionDissociate($source = null, $target = null, $field = null)
+    public function actionDissociate($source = null, $target = null, $field = null, $site = null)
     {
         if (null === $source) {
             $source = Craft::$app->getRequest()->getBodyParam('source');
@@ -146,6 +153,10 @@ class SourceController extends AbstractController
 
         if (null === $field) {
             $field = Craft::$app->getRequest()->getBodyParam('field');
+        }
+
+        if (null === $site) {
+            $site = Craft::$app->getRequest()->getBodyParam('site');
         }
 
         /** @var Dissociate $action */
@@ -160,7 +171,8 @@ class SourceController extends AbstractController
         return $action->runWithParams([
             'source' => $source,
             'target' => $target,
-            'field' => $field
+            'field' => $field,
+            'siteId' => $site
         ]);
     }
 

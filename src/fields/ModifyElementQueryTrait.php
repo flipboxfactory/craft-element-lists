@@ -12,6 +12,7 @@ use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\helpers\Db;
 use flipbox\craft\element\lists\records\Association;
+use flipbox\craft\ember\helpers\ArrayHelper;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -34,6 +35,11 @@ trait ModifyElementQueryTrait
             return false;
         }
 
+        if (is_array($value)) {
+            $this->modifyElementsQueryForArrayValue($query, $value);
+            return null;
+        }
+
         if (is_string($value)) {
             $this->modifyElementsQueryForStringValue($query, $value);
             return null;
@@ -45,11 +51,34 @@ trait ModifyElementQueryTrait
 
     /**
      * @param ElementQuery $query
+     * @param array $value
+     * @return void
+     */
+    protected function modifyElementsQueryForArrayValue(
+        ElementQuery $query,
+        array $value
+    ) {
+        if (array_key_exists('source', $value)) {
+            $this->modifyElementsQueryForStringValue(
+                $query,
+                $value['source'] ?: ':empty:',
+                ArrayHelper::remove($value, 'sourceSiteId')
+            );
+            return null;
+        }
+
+        $this->modifyElementsQueryForTargetValue($query, $value);
+    }
+
+    /**
+     * @param ElementQuery $query
      * @param string $value
+     * @param $siteId
      */
     protected function modifyElementsQueryForStringValue(
         ElementQuery $query,
-        string $value
+        string $value,
+        $siteId = null
     ) {
         if ($value === 'not :empty:') {
             $value = ':notempty:';
@@ -60,16 +89,18 @@ trait ModifyElementQueryTrait
             return;
         }
 
-        $this->modifyElementsQueryForTargetValue($query, $value);
+        $this->modifyElementsQueryForTargetValue($query, $value, $siteId);
     }
 
     /**
      * @param ElementQuery $query
-     * @param $value
+     * @param $sourceId
+     * @param $siteId
      */
     protected function modifyElementsQueryForTargetValue(
         ElementQuery $query,
-        $value
+        $sourceId,
+        $siteId = null
     ) {
         $alias = Association::tableAlias();
         $name = Association::tableName();
@@ -85,8 +116,14 @@ trait ModifyElementQueryTrait
         );
 
         $query->subQuery->andWhere(
-            Db::parseParam($alias . '.sourceId', $value)
+            Db::parseParam($alias . '.sourceId', $sourceId)
         );
+
+        if ($this->localizeRelations && $siteId) {
+            $query->subQuery->andWhere(
+                Db::parseParam($alias . '.sourceSiteId', $siteId)
+            );
+        }
 
         $query->query->distinct(true);
     }

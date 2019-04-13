@@ -82,7 +82,7 @@ trait NormalizeValueTrait
                     [
                         'or',
                         [$alias . '.sourceSiteId' => null],
-                        [$alias . '.sourceSiteId' => SiteHelper::ensureSiteId($element === null ? null : $element->siteId)]
+                        [$alias . '.sourceSiteId' => SiteHelper::ensureSiteId($element->siteId ?: null)]
                     ]
                 ]
             );

@@ -9,13 +9,15 @@
 namespace flipbox\craft\element\lists\elements\actions;
 
 use Craft;
+use craft\base\Element;
 use craft\base\ElementAction;
-use craft\base\Field;
 use craft\base\FieldInterface;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\db\UserQuery;
+use craft\fields\BaseRelationField;
 use craft\helpers\ArrayHelper;
 use flipbox\craft\element\lists\ElementList;
+use flipbox\craft\element\lists\queries\AssociationQuery;
 use flipbox\craft\element\lists\records\Association;
 use yii\base\Exception;
 
@@ -72,7 +74,7 @@ class DissociateFromElementAction extends ElementAction
      */
     public function performAction(ElementQueryInterface $query): bool
     {
-        /** @var Field $field */
+        /** @var BaseRelationField $field */
         if (null === ($field = Craft::$app->getFields()->getFieldById($this->fieldId))) {
             throw new Exception(sprintf(
                 "Field %s must be an instance of '%s'",
@@ -85,16 +87,26 @@ class DissociateFromElementAction extends ElementAction
             throw new Exception("Element does not exist with the identifier '{$this->sourceId}'");
         }
 
-        // Get the count because it's cleared when dissociated
-        $count = $query->count();
+        $siteId = $query->siteId;
 
-        foreach ($query->all() as $target) {
-            if (!$record = Association::find()
+        /** @var Element $source */
+
+        // Get the count because it's cleared when dissociated
+        $targets = $query->all();
+        $count = count($targets);
+
+        foreach ($targets as $target) {
+
+            $associationQuery = Association::find()
                 ->fieldId($field->id)
                 ->sourceId($source->getId())
-                ->targetId($target->getId())
-                ->one()
-            ) {
+                ->targetId($target->getId());
+
+            if ($field->localizeRelations) {
+                $associationQuery->sourceSiteId($siteId);
+            }
+
+            if (!$record = $associationQuery->one()) {
                 continue;
             }
 

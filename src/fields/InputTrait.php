@@ -114,7 +114,8 @@ trait InputTrait
             'selectTargetAttribute' => 'target',
             'selectParams' => [
                 'source' => $element->getId() ?: null,
-                'field' => $this->id
+                'field' => $this->id,
+                'site' => $siteId,
             ]
         ];
     }
@@ -128,6 +129,8 @@ trait InputTrait
 
         /** @var Element $element */
         $elementId = ($element !== null && $element->getId() !== null) ? $element->getId() : false;
+
+        $siteId = SiteHelper::ensureSiteId($element ? $element->siteId : null);
 
         return [
             'source' => 'nested',
@@ -143,8 +146,11 @@ trait InputTrait
             'loadMoreElementsAction' => 'element-lists/element-indexes/get-more-elements',
             'criteria' => [
                 'enabledForSite' => null,
-                'siteId' => SiteHelper::ensureSiteId($element ? $element->siteId : null),
-                $this->handle => $elementId
+                'siteId' => $siteId,
+                $this->handle => [
+                    'source' => $elementId,
+                    'sourceSiteId' => $siteId
+                ]
             ],
             'viewParams' => [
                 'sourceId' => $elementId,
