@@ -96,7 +96,6 @@ class DissociateFromElementAction extends ElementAction
         $count = count($targets);
 
         foreach ($targets as $target) {
-
             $associationQuery = Association::find()
                 ->fieldId($field->id)
                 ->sourceId($source->getId())
