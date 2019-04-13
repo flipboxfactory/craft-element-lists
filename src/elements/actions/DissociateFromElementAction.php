@@ -68,7 +68,6 @@ class DissociateFromElementAction extends ElementAction
     /**
      * @inheritdoc
      * @throws \Throwable
-     * @throws \craft\errors\SiteNotFoundException
      * @throws \yii\db\StaleObjectException
      */
     public function performAction(ElementQueryInterface $query): bool
@@ -86,8 +85,6 @@ class DissociateFromElementAction extends ElementAction
             throw new Exception("Element does not exist with the identifier '{$this->sourceId}'");
         }
 
-        $siteId = Craft::$app->getSites()->getCurrentSite()->id;
-
         // Get the count because it's cleared when dissociated
         $count = $query->count();
 
@@ -96,7 +93,6 @@ class DissociateFromElementAction extends ElementAction
                 ->fieldId($field->id)
                 ->sourceId($source->getId())
                 ->targetId($target->getId())
-                ->siteId($siteId)
                 ->one()
             ) {
                 continue;

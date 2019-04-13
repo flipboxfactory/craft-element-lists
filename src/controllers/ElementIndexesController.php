@@ -14,6 +14,7 @@ use craft\events\RegisterElementActionsEvent;
 use craft\events\RegisterElementSortOptionsEvent;
 use flipbox\craft\element\lists\ElementList;
 use flipbox\craft\element\lists\elements\actions\DissociateFromElementAction;
+use flipbox\craft\element\lists\records\Association;
 use yii\base\Event;
 
 /**
@@ -52,7 +53,7 @@ class ElementIndexesController extends \craft\controllers\ElementIndexesControll
                 $event->sortOptions[] = [
                     'label' => ElementList::t('Field Order'),
                     'attribute' => 'field',
-                    'orderBy' => 'elementlist.sortOrder'
+                    'orderBy' => Association::TABLE_ALIAS . '.sortOrder'
                 ];
             }
         );

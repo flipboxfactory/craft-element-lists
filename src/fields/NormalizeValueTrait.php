@@ -77,8 +77,12 @@ trait NormalizeValueTrait
                     '[[' . $alias . '.targetId]] = [[elements.id]]',
                     [
                         $alias . '.sourceId' => $source,
-                        $alias . '.fieldId' => $this->id,
-                        $alias . '.siteId' => SiteHelper::ensureSiteId($element === null ? null : $element->siteId)
+                        $alias . '.fieldId' => $this->id
+                    ],
+                    [
+                        'or',
+                        [$alias . '.sourceSiteId' => null],
+                        [$alias . '.sourceSiteId' => SiteHelper::ensureSiteId($element === null ? null : $element->siteId)]
                     ]
                 ]
             );

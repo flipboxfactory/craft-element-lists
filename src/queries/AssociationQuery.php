@@ -208,9 +208,7 @@ class AssociationQuery extends CacheableActiveQuery
     protected function applySiteConditions()
     {
         if ($this->site !== null) {
-            $this->andWhere(Db::parseParam('siteId', $this->parseSiteValue($this->site)));
-        } else {
-            $this->andWhere(Db::parseParam('siteId', Craft::$app->getSites()->currentSite->id));
+            $this->andWhere(Db::parseParam('sourceSiteId', $this->parseSiteValue($this->site)));
         }
     }
 

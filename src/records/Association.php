@@ -11,7 +11,6 @@ namespace flipbox\craft\element\lists\records;
 use Craft;
 use flipbox\craft\ember\records\ActiveRecord;
 use flipbox\craft\ember\records\FieldAttributeTrait;
-use flipbox\craft\ember\records\SiteAttributeTrait;
 use flipbox\craft\ember\records\SortableTrait;
 use flipbox\craft\element\lists\queries\AssociationQuery;
 
@@ -24,19 +23,19 @@ use flipbox\craft\element\lists\queries\AssociationQuery;
  */
 class Association extends ActiveRecord
 {
-    use SiteAttributeTrait,
+    use SourceSiteAttributeTrait,
         FieldAttributeTrait,
         SortableTrait;
 
     /**
      * @inheritdoc
      */
-    const TABLE_ALIAS = 'elementlist';
+    const TABLE_ALIAS = 'relations';
 
     /**
      * @inheritdoc
      */
-    protected $getterPriorityAttributes = ['fieldId', 'siteId'];
+    protected $getterPriorityAttributes = ['fieldId', 'siteId', 'sourceSiteId'];
 
     /**
      * @noinspection PhpDocMissingThrowsInspection
@@ -60,7 +59,7 @@ class Association extends ActiveRecord
     {
         return array_merge(
             parent::rules(),
-            $this->siteRules(),
+            $this->sourceSiteRules(),
             $this->fieldRules(),
             [
                 [
@@ -78,7 +77,7 @@ class Association extends ActiveRecord
                         'targetId',
                         'sourceId',
                         'fieldId',
-                        'siteId'
+                        'sourceSiteId'
                     ]
                 ],
                 [
@@ -104,7 +103,7 @@ class Association extends ActiveRecord
             [
                 'sourceId' => $this->sourceId,
                 'fieldId' => $this->fieldId,
-                'siteId' => $this->siteId
+                'sourceSiteId' => $this->sourceSiteId
             ]
         );
 
@@ -122,7 +121,7 @@ class Association extends ActiveRecord
             [
                 'sourceId' => $this->sourceId,
                 'fieldId' => $this->fieldId,
-                'siteId' => $this->siteId
+                'sourceSiteId' => $this->sourceSiteId
             ]
         );
 
@@ -140,7 +139,7 @@ class Association extends ActiveRecord
             [
                 'sourceId' => $this->sourceId,
                 'fieldId' => $this->fieldId,
-                'siteId' => $this->siteId
+                'sourceSiteId' => $this->sourceSiteId
             ]
         );
 
