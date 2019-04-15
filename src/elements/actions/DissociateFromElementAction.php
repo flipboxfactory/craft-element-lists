@@ -17,7 +17,6 @@ use craft\elements\db\UserQuery;
 use craft\fields\BaseRelationField;
 use craft\helpers\ArrayHelper;
 use flipbox\craft\element\lists\ElementList;
-use flipbox\craft\element\lists\queries\AssociationQuery;
 use flipbox\craft\element\lists\records\Association;
 use yii\base\Exception;
 

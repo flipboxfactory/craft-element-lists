@@ -20,6 +20,7 @@ use flipbox\craft\element\lists\queries\AssociationQuery;
  *
  * @property int $targetId
  * @property int $sourceId
+ * @property int $sortOrder
  */
 class Association extends ActiveRecord
 {

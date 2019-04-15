@@ -8,7 +8,6 @@
 
 namespace flipbox\craft\element\lists\queries;
 
-use Craft;
 use craft\base\ElementInterface;
 use craft\db\QueryAbortedException;
 use craft\helpers\Db;
