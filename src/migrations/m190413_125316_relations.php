@@ -17,21 +17,40 @@ class m190413_125316_relations extends Migration
 {
     /**
      * @return bool
+     * @throws \craft\errors\SiteNotFoundException
      * @throws \yii\db\Exception
      */
     public function safeUp()
     {
+        // By default, remove siteId value if it matches the primary site (to mirror what native relations is doing)
+        $primarySiteId = Craft::$app->getSites()->getPrimarySite()->id;
+        $siteSelect = '(case when e.siteId = '.$primarySiteId.' then null else e.siteId end) sourceSiteId';
+        $joinOn = 'e.fieldId=e.fieldId AND e.sourceId=r.sourceId AND e.targetId=r.targetId';
+
+        // Handle multi-site differently.  Match explicitly.
+        if (Craft::$app->getIsMultiSite()) {
+            $siteSelect = 'e.siteId';
+            $joinOn .= ' AND e.siteId=r.sourceSiteId';
+        }
+
         $query = (new Query())
-            ->from(['{{%elementlist}}'])
+            ->from(['{{%elementlist}} e'])
+            ->leftJoin(
+                Association::tableName() . ' r',
+                $joinOn
+            )
             ->select([
-                'fieldId',
-                'sourceId',
-                'targetId',
-                'sortOrder',
-                'dateCreated',
-                'dateUpdated',
-                'uid',
-                'siteId',
+                'e.fieldId',
+                'e.sourceId',
+                'e.targetId',
+                'e.sortOrder',
+                'e.dateCreated',
+                'e.dateUpdated',
+                'e.uid',
+                $siteSelect
+            ])
+            ->andWhere([
+                'r.id' => null
             ]);
 
         foreach ($query->batch(1000) as $batch) {
