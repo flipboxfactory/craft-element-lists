@@ -31,7 +31,7 @@ class m190413_125316_relations extends Migration
                 'dateCreated',
                 'dateUpdated',
                 'uid',
-                'siteId as sourceSiteId',
+                'siteId',
             ]);
 
         foreach ($query->batch(1000) as $batch) {
@@ -45,7 +45,7 @@ class m190413_125316_relations extends Migration
                     'dateCreated',
                     'dateUpdated',
                     'uid',
-                    'siteId'
+                    'sourceSiteId'
                 ],
                 $batch,
                 false
