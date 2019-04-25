@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 2.1.0 - 2019-04-25
 ### Changed
 - Relations are stored in the native 'relations' table resulting in seamless switching between field types.
 
