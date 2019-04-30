@@ -63,14 +63,10 @@ trait InputTrait
 
         Craft::$app->getView()->registerAssetBundle(NestedElementIndex::class);
 
-        $sources = Craft::$app->getElementIndexes()->getSources(static::elementType());
-        foreach ($sources as &$source) {
-            ArrayHelper::remove($source, 'structureEditable');
-            ArrayHelper::remove($source, 'structureId');
-        }
-
         return [
-            'sources' => $sources,
+            'sources' => $this->inputToIndexSources(
+                $this->inputSources($element)
+            ),
             'element' => $element,
             'container' => 'nested-index-' . $this->handle,
             'elementType' => static::elementType(),
@@ -79,6 +75,45 @@ trait InputTrait
             'indexJsClass' => 'Craft.NestedElementIndex',
             'indexJs' => $this->getIndexJs($element)
         ];
+    }
+
+    /**
+     * Converts input sources to index sources (used to filter results).
+     *
+     * @param $sources
+     * @return array
+     */
+    protected function inputToIndexSources($sources): array
+    {
+        $indexSources = Craft::$app->getElementIndexes()->getSources(static::elementType());
+
+        if ($sources === '*') {
+            // Remove any structure sources
+            foreach ($indexSources as &$indexSource) {
+                ArrayHelper::remove($indexSource, 'structureEditable');
+                ArrayHelper::remove($indexSource, 'structureId');
+            }
+
+            return $indexSources;
+        }
+
+        if (!is_array($sources)) {
+            $sources = [$sources];
+        }
+
+        // Only return the selected sources
+        foreach($indexSources as $key => $indexSource) {
+            if (!array_key_exists('key', $indexSource)) {
+                unset($indexSources[$key]);
+                continue;
+            }
+
+            if (!in_array($indexSource['key'], $sources)) {
+                unset($indexSources[$key]);
+            }
+        }
+
+        return $indexSources;
     }
 
     /*******************************************
@@ -138,7 +173,7 @@ trait InputTrait
             'viewMode' => $this->viewMode,
             'showStatusMenu' => true,
             'showSiteMenu' => true,
-            'hideSidebar' => false,
+            'hideSidebar' => true,
             'toolbarFixed' => false,
             'storageKey' => 'nested.index.' . $this->handle,
             'updateElementsAction' => 'element-lists/element-indexes/get-elements',
