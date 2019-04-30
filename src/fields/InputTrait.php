@@ -102,7 +102,7 @@ trait InputTrait
         }
 
         // Only return the selected sources
-        foreach($indexSources as $key => $indexSource) {
+        foreach ($indexSources as $key => $indexSource) {
             if (!array_key_exists('key', $indexSource)) {
                 unset($indexSources[$key]);
                 continue;
