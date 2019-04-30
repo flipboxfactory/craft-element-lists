@@ -1,7 +1,10 @@
 Changelog
 =========
+## 2.1.2 - 2019-04-30
+### Changed
+- Index sources are limited to the input sources defined via settings. [#3](https://github.com/flipboxfactory/craft-element-lists/issues/3)
 
-## 2.1.1.1 - 2019-04-28
+## 2.1.1.1 - 2019-04-29
 ### Fixed
 - Optimized query which was returning multiple of the same element.
 
