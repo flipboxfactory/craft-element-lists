@@ -1,5 +1,10 @@
 Changelog
 =========
+
+## 2.1.1 - 2019-04-28
+### Fixed
+- Query::distinct would throw an error on postgres databases [#2](https://github.com/flipboxfactory/craft-element-lists/issues/2)
+
 ## 2.1.0 - 2019-04-25
 ### Changed
 - Relations are stored in the native 'relations' table resulting in seamless switching between field types.

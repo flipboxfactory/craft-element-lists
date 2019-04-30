@@ -124,8 +124,6 @@ trait ModifyElementQueryTrait
                 Db::parseParam($alias . '.sourceSiteId', $siteId)
             );
         }
-
-        $query->query->distinct(true);
     }
 
     /**
