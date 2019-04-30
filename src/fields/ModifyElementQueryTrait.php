@@ -105,25 +105,22 @@ trait ModifyElementQueryTrait
         $alias = Association::tableAlias();
         $name = Association::tableName();
 
-        $joinTable = "{$name} {$alias}";
-        $query->query->innerJoin($joinTable, "[[{$alias}.targetId]] = [[subquery.elementsId]]");
-        $query->subQuery->innerJoin($joinTable, "[[{$alias}.targetId]] = [[elements.id]]");
-
-        $query->subQuery->addSelect(["{$alias}.sortOrder"]);
-
-        $query->subQuery->andWhere(
-            Db::parseParam($alias . '.fieldId', $this->id)
+        $query->innerJoin(
+            "{$name} {$alias}",
+            [
+                'and',
+                '[['.$alias.'.targetId]] = [[elements.id]]',
+                [
+                    $alias . '.sourceId' => $sourceId,
+                    $alias . '.fieldId' => $this->id,
+                ],
+                [
+                    'or',
+                    [$alias . '.sourceSiteId' => null],
+                    [$alias . '.sourceSiteId' => $siteId]
+                ]
+            ]
         );
-
-        $query->subQuery->andWhere(
-            Db::parseParam($alias . '.sourceId', $sourceId)
-        );
-
-        if ($this->localizeRelations && $siteId) {
-            $query->subQuery->andWhere(
-                Db::parseParam($alias . '.sourceSiteId', $siteId)
-            );
-        }
     }
 
     /**

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 2.1.1.1 - 2019-04-28
+### Fixed
+- Optimized query which was returning multiple of the same element.
+
 ## 2.1.1 - 2019-04-28
 ### Fixed
 - Query::distinct would throw an error on postgres databases [#2](https://github.com/flipboxfactory/craft-element-lists/issues/2)
