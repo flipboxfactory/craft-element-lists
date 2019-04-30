@@ -19,7 +19,7 @@
   ],
   "require": {
     "craftcms/cms": "^3.0",
-    "flipboxfactory/craft-ember": "^2.0",
+    "flipboxfactory/craft-ember": "^2.3.1",
     "flipboxfactory/craft-elements-nested-index": "^2.2"
   },
   "require-dev": {
