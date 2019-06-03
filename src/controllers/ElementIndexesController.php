@@ -58,13 +58,34 @@ class ElementIndexesController extends \craft\controllers\ElementIndexesControll
             }
         );
 
+        $this->normalizeDisabledElementIds();
+
         parent::init();
+    }
+
+    /**
+     * When working with large sets of elements, this may be sent as a comma delimited string
+     */
+    protected function normalizeDisabledElementIds()
+    {
+        $disabledElementIds = Craft::$app->getRequest()->getBodyParam('disabledElementIds', []);
+
+        if (is_string($disabledElementIds)) {
+            $disabledElementIds = explode(",", $disabledElementIds);
+
+            Craft::$app->getRequest()->setBodyParams(array_merge(
+                Craft::$app->getRequest()->getBodyParams(),
+                [
+                    'disabledElementIds' => $disabledElementIds
+                ]
+            ));
+        }
     }
 
     /**
      * @return mixed
      */
-    private function sourceId()
+    protected function sourceId()
     {
         return Craft::$app->getRequest()->getParam('sourceId');
     }
@@ -72,7 +93,7 @@ class ElementIndexesController extends \craft\controllers\ElementIndexesControll
     /**
      * @return mixed
      */
-    private function fieldId()
+    protected function fieldId()
     {
         return Craft::$app->getRequest()->getParam('fieldId');
     }

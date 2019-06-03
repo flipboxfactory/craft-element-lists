@@ -9,6 +9,8 @@
 namespace flipbox\craft\element\lists\records;
 
 use Craft;
+use craft\errors\FieldNotFoundException;
+use flipbox\craft\element\lists\fields\SortableInterface;
 use flipbox\craft\ember\records\ActiveRecord;
 use flipbox\craft\ember\records\FieldAttributeTrait;
 use flipbox\craft\ember\records\SortableTrait;
@@ -97,53 +99,83 @@ class Association extends ActiveRecord
 
     /**
      * @inheritdoc
+     *
+     * @throws FieldNotFoundException
      */
     public function beforeSave($insert)
     {
-        $this->ensureSortOrder(
-            [
-                'sourceId' => $this->sourceId,
-                'fieldId' => $this->fieldId,
-                'sourceSiteId' => $this->sourceSiteId
-            ]
-        );
+        if ($this->getSortableField()->ensureSortOrder()) {
+            $this->ensureSortOrder(
+                [
+                    'sourceId' => $this->sourceId,
+                    'fieldId' => $this->fieldId,
+                    'sourceSiteId' => $this->sourceSiteId
+                ]
+            );
+        }
 
         return parent::beforeSave($insert);
     }
 
     /**
      * @inheritdoc
+     *
+     * @throws FieldNotFoundException
      * @throws \yii\db\Exception
      */
     public function afterSave($insert, $changedAttributes)
     {
-        $this->autoReOrder(
-            'targetId',
-            [
-                'sourceId' => $this->sourceId,
-                'fieldId' => $this->fieldId,
-                'sourceSiteId' => $this->sourceSiteId
-            ]
-        );
+        if ($this->getSortableField()->ensureSortOrder()) {
+            $this->autoReOrder(
+                'targetId',
+                [
+                    'sourceId' => $this->sourceId,
+                    'fieldId' => $this->fieldId,
+                    'sourceSiteId' => $this->sourceSiteId
+                ]
+            );
+        }
 
         parent::afterSave($insert, $changedAttributes);
     }
 
     /**
      * @inheritdoc
+     *
+     * @throws FieldNotFoundException
      * @throws \yii\db\Exception
      */
     public function afterDelete()
     {
-        $this->sequentialOrder(
-            'targetId',
-            [
-                'sourceId' => $this->sourceId,
-                'fieldId' => $this->fieldId,
-                'sourceSiteId' => $this->sourceSiteId
-            ]
-        );
+        if ($this->getSortableField()->ensureSortOrder()) {
+            $this->sequentialOrder(
+                'targetId',
+                [
+                    'sourceId' => $this->sourceId,
+                    'fieldId' => $this->fieldId,
+                    'sourceSiteId' => $this->sourceSiteId
+                ]
+            );
+        }
 
         parent::afterDelete();
+    }
+
+    /**
+     * @return SortableInterface
+     * @throws FieldNotFoundException
+     */
+    protected function getSortableField(): SortableInterface
+    {
+        if (!$this->getField() instanceof SortableInterface) {
+            throw new FieldNotFoundException(sprintf(
+                "Field must be an instance of '%s', '%s' given.",
+                SortableInterface::class,
+                get_class($this->getField())
+            ));
+        }
+
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getField();
     }
 }

@@ -12,6 +12,7 @@ use Craft;
 use craft\base\Element;
 use craft\base\ElementAction;
 use craft\base\FieldInterface;
+use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\db\UserQuery;
 use craft\fields\BaseRelationField;
@@ -73,6 +74,8 @@ class DissociateFromElementAction extends ElementAction
      */
     public function performAction(ElementQueryInterface $query): bool
     {
+        /** @var ElementQuery $query */
+
         /** @var BaseRelationField $field */
         if (null === ($field = Craft::$app->getFields()->getFieldById($this->fieldId))) {
             throw new Exception(sprintf(

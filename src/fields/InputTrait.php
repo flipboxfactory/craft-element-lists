@@ -151,6 +151,13 @@ trait InputTrait
                 'source' => $element->getId() ?: null,
                 'field' => $this->id,
                 'site' => $siteId,
+            ],
+            'modalSettings' => [
+                'indexSettings' => [
+                    'updateElementsAction' => 'element-lists/element-indexes/get-elements',
+                    'submitActionsAction' => 'element-lists/element-indexes/perform-action',
+                    'loadMoreElementsAction' => 'element-lists/element-indexes/get-more-elements'
+                ]
             ]
         ];
     }

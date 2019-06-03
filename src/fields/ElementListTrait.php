@@ -9,10 +9,13 @@
 namespace flipbox\craft\element\lists\fields;
 
 use craft\base\ElementInterface;
+use craft\base\FieldInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @mixin FieldInterface
  */
 trait ElementListTrait
 {
@@ -35,5 +38,27 @@ trait ElementListTrait
         }
 
         return parent::getSearchKeywords($value, $element);
+    }
+
+    /**
+     * Identify whether a sort order should be enforced.
+     *
+     * @return bool
+     */
+    public function ensureSortOrder(): bool
+    {
+        return $this->sortable;
+    }
+
+    /**
+     * Allow the settings to identify whether the element should be sortable
+     *
+     * @param bool $sortable
+     * @return $this
+     */
+    public function setSortable(bool $sortable)
+    {
+        $this->sortable = $sortable;
+        return $this;
     }
 }

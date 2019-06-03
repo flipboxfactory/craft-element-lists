@@ -10,7 +10,6 @@ namespace flipbox\craft\element\lists\fields;
 
 use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
-use craft\helpers\Db;
 use flipbox\craft\element\lists\records\Association;
 use flipbox\craft\ember\helpers\ArrayHelper;
 

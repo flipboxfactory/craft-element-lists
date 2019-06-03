@@ -1,0 +1,15 @@
+{% import "_includes/forms" as forms %}
+{% extends "_components/fieldtypes/elementfieldsettings" %}
+
+{% block advancedSettings %}
+    {{ forms.lightswitchField({
+        label: "Sortable"|t('element-lists'),
+        instructions: "Whether the field can be sorted"|t('element-lists'),
+        id: 'sortable',
+        name: 'sortable',
+        enabled: field.sortable ? true : false,
+        errors: field.getErrors('sortable')
+    }) }}
+
+    {{ parent() }}
+{% endblock %}

@@ -15,7 +15,7 @@ use flipbox\craft\element\lists\ElementList;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class UserList extends Users
+class UserList extends Users implements SortableInterface
 {
     use ElementListTrait;
 
@@ -26,7 +26,8 @@ class UserList extends Users
     {
         parent::init();
 
-        $this->inputTemplate = 'element-lists/_components/fieldtypes/ElementSource';
+        $this->settingsTemplate = 'element-lists/_components/fieldtypes/settings';
+        $this->inputTemplate = 'element-lists/_components/fieldtypes/input';
         $this->inputJsClass = 'Craft.NestedElementIndexSelectInput';
     }
 
@@ -36,5 +37,18 @@ class UserList extends Users
     public static function displayName(): string
     {
         return ElementList::t('User List');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function settingsAttributes(): array
+    {
+        return array_merge(
+            parent::settingsAttributes(),
+            [
+                'sortable'
+            ]
+        );
     }
 }

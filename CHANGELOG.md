@@ -1,5 +1,10 @@
 Changelog
 =========
+
+## Unreleased
+### Added
+- Fields can disable sort order enforcement.  We recommend disabling this when field relations are in the thousands.
+
 ## 2.1.2 - 2019-04-30
 ### Changed
 - Index sources are limited to the input sources defined via settings. [#3](https://github.com/flipboxfactory/craft-element-lists/issues/3)
