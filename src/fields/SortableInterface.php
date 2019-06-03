@@ -21,9 +21,8 @@ interface SortableInterface
      *
      * Note: when working with large data sets (thousands or relations), enforcing sort order may take a long
      * time to execute and affect performance.
-     * 
+     *
      * @return bool
      */
     public function ensureSortOrder(): bool;
-    
 }
