@@ -61,4 +61,14 @@ trait ElementListTrait
         $this->sortable = $sortable;
         return $this;
     }
+
+    /**
+     * Get the sortable attribute value
+     *
+     * @return bool
+     */
+    public function getSortable(): bool
+    {
+        return $this->sortable;
+    }
 }
