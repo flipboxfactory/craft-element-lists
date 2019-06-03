@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.2.0 - 2019-05-03
 ### Added
 - Fields can disable sort order enforcement.  We recommend disabling this when field relations are in the thousands.
 
