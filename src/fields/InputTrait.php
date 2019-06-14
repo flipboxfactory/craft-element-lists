@@ -11,8 +11,10 @@ namespace flipbox\craft\element\lists\fields;
 use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
+use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\helpers\ArrayHelper;
+use flipbox\craft\element\lists\relationships\RelationshipInterface;
 use flipbox\craft\elements\nestedIndex\web\assets\index\NestedElementIndex;
 use flipbox\craft\ember\helpers\SiteHelper;
 
@@ -46,18 +48,46 @@ trait InputTrait
     abstract protected function inputSources(ElementInterface $element = null);
 
     /**
-     * @param null $value
+     * @inheritDoc
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getInputHtml($value, ElementInterface $element = null): string
+    {
+        /** @var Element|null $element */
+        if ($element !== null && $element->hasEagerLoadedElements($this->handle)) {
+            $value = $element->getEagerLoadedElements($this->handle);
+        }
+
+        /** @var ElementQuery|array $value */
+        $variables = $this->inputTemplateVariables($value, $element);
+
+        return Craft::$app->getView()->renderTemplate(
+            'element-lists/_components/fieldtypes/input',
+            array_merge(
+                [
+                    'inputTemplate' => $this->inputTemplate
+                ],
+                $variables
+            )
+        );
+    }
+
+    /**
+     * @param RelationshipInterface|null $value
      * @param ElementInterface|null $element
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
     protected function inputTemplateVariables($value = null, ElementInterface $element = null): array
     {
-        if ($value instanceof ElementQueryInterface) {
-            $value = $value
-                ->anyStatus()
-                ->ids();
-        } elseif (!is_array($value)) {
+        if ($value instanceof RelationshipInterface) {
+            $value = $value->getCollection()->pluck('id')->all();
+        }
+
+        if (!is_array($value)) {
             $value = [];
         }
 
@@ -70,7 +100,7 @@ trait InputTrait
             'element' => $element,
             'container' => 'nested-index-' . $this->handle,
             'elementType' => static::elementType(),
-            'inputJsClass' => $this->inputJsClass,
+            'inputJsClass' => 'Craft.NestedElementIndexSelectInput',
             'inputJs' => $this->getInputJs($value, $element),
             'indexJsClass' => 'Craft.NestedElementIndex',
             'indexJs' => $this->getIndexJs($element)

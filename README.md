@@ -10,6 +10,13 @@ Element List introduces a table-based element relational field type; perfect for
 
 ![Screenshot](resources/screenshots/field.png)
 
+## New in Version 3
+Element List fields now return a [Relationship Interface], not an [Element Query Interface].  This introduces breaking
+changes; however legacy [Element Query Interface] method are still available, but discuraged from using.  
+
+The [Relationship Interface] introduces intuitive relationship management methods such as `add`, `remove`, and `save`.  
+Calling `RelationshipInterface::getCollection()` will return a [Collection] of related elements.
+
 ## Requirements
 This plugin requires Craft CMS 3.0 or later.
 
@@ -44,7 +51,7 @@ Here are some of the features at a glance:
 * Searchable list view
 * Developer friendly
 
-### Templating
+### Templating *(version 1 & 2)*
 Similar to [native relational fields](https://docs.craftcms.com/v3/relations.html), an [Element List] field returns an [Element Query Interface].  
 
 Loop through field relations:
@@ -56,8 +63,70 @@ Loop through field relations:
 </ul>
 ```
 
+### Templating *(version 3)*
+An [Element List] field returns an [Relationship Interface] which is the primary interface for accessing and managing
+relationships.  
+
+Loop through field relations:
+```twig
+<ul>
+    {% for relatedElement in element.fieldHandle.collection.all() %}
+        <li>{{ relatedElement.id }} - {{ relatedElement.someCustomField }}</li>
+    {% endfor %}
+</ul>
+```
+
+The legacy query operations are still accessible, but discouraged.
+```twig
+<ul>
+    {% for relatedElement in element.fieldHandle.all() %}
+        <li>{{ relatedElement.id }} - {{ relatedElement.someCustomField }}</li>
+    {% endfor %}
+</ul>
+```
+
+### Collections *(new in Version 3)*
+In version 3 you'll begin to work with [Collections].  These are super handy classes
+with various [methods](https://laravel.com/docs/5.8/collections#available-methods) to interact with your data.
+
+### Eager Loading
 Element Lists also supports eager-loading.  Simply follow the native [nested sets eager loading documentation](https://docs.craftcms.com/v3/dev/eager-loading-elements.html#eager-loading-nested-sets-of-elements).
 
+### Developers
+Native relationship fields are not developer friendly so in version 3 we introduced the concept of a [Relationship Interface].   
+Here are a few examples:
+
+```php
+// Add two new users to the list
+Entry::findOne(['id' => 1])
+    ->userListField
+    ->add([
+        'nate@flipboxdigital.com',
+        'damien@flipboxdigital.com'
+    ])
+    ->save();
+```
+
+```php
+// Remove one user and add another
+Entry::findOne(['id' => 1])
+    ->userListField
+    ->remove('nate@flipboxdigital.com')
+    ->add('damien@flipboxdigital.com')
+    ->save();
+```
+
+```php
+// Remove all users
+Entry::findOne(['id' => 1])
+    ->userListField
+    ->clear()
+    ->save();
+```
+
+In the above examples, we're saving the relationships immediately; however if you make
+changes to your relationships and don't save, when the element is saved the relationship changes
+will also be saved.
 
 ### Screenshots
 ![Element Source Filter](resources/screenshots/input-source-filter.png)
@@ -77,3 +146,5 @@ Element Lists also supports eager-loading.  Simply follow the native [nested set
 [Element Query Interface]: https://docs.craftcms.com/v3/dev/element-queries/#executing-element-queries
 [Plugin Store]: https://plugins.craftcms.com/element-lists
 [Element List]: https://plugins.craftcms.com/element-lists
+[Relationship Interface]: https://github.com/flipboxfactory/craft-element-lists/blob/develop/src/relationships/RelationshipInterface.php
+[Collection]: https://laravel.com/docs/5.8/collections

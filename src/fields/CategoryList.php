@@ -23,17 +23,6 @@ class CategoryList extends Categories implements SortableInterface, RelationalIn
     /**
      * @inheritdoc
      */
-    public function init()
-    {
-        parent::init();
-
-        $this->inputTemplate = 'element-lists/_components/fieldtypes/input';
-        $this->inputJsClass = 'Craft.NestedElementIndexSelectInput';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public static function displayName(): string
     {
         return ElementList::t('Category List');

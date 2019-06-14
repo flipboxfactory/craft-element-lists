@@ -12,7 +12,6 @@ use craft\base\ElementInterface;
 use flipbox\craft\element\lists\records\Association;
 use Tightenco\Collect\Support\Collection;
 use yii\base\Exception;
-use yii\db\ActiveRecord;
 use yii\db\QueryInterface;
 
 /**
@@ -29,8 +28,8 @@ interface RelationshipInterface extends \Countable
     /**
      * Find a relationship
      *
-     * @param ActiveRecord|ElementInterface|int|string|null $object
-     * @return ActiveRecord|null
+     * @param Association|ElementInterface|int|string|null $object
+     * @return Association|null
      */
     public function findOne($object = null);
 
@@ -57,11 +56,15 @@ interface RelationshipInterface extends \Countable
      ************************************************************/
 
     /**
+     * A collection of related elements.
+     *
      * @return Collection|ElementInterface[]
      */
     public function getCollection(): Collection;
 
     /**
+     * A collection of relationships.
+     *
      * @return Collection|Association[]
      */
     public function getRelationships(): Collection;
@@ -72,7 +75,7 @@ interface RelationshipInterface extends \Countable
      ************************************************************/
 
     /**
-     * Add one or many object relations (but do not save)
+     * Add one or many relations (but do not save)
      *
      * @param string|int|string[]|int[]|ElementInterface|QueryInterface|Collection|ElementInterface[] $objects
      * @param array $attributes
@@ -81,7 +84,7 @@ interface RelationshipInterface extends \Countable
     public function add($objects, array $attributes = []): RelationshipInterface;
 
     /**
-     * Remove one or many object relations (but do not save)
+     * Remove one or many relations (but do not save)
      *
      * @param string|int|string[]|int[]|ElementInterface|QueryInterface|Collection|ElementInterface[] $objects
      * @return static
@@ -115,7 +118,7 @@ interface RelationshipInterface extends \Countable
     public function exists($object): bool;
 
     /**
-     * Check if the relationships have been altered
+     * Check if relationships have been altered
      *
      * @return bool
      */

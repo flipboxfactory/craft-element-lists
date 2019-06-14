@@ -11,6 +11,7 @@ namespace flipbox\craft\element\lists\fields;
 use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
+use craft\elements\db\ElementQuery;
 use craft\events\FieldElementEvent;
 use flipbox\craft\element\lists\relationships\RelationshipInterface;
 

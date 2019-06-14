@@ -1,5 +1,9 @@
 Changelog
 =========
+### Unreleased
+### Changed
+- Field value is now a `RelationshipInterface` and not the default `ElementQueryInterface`.  Note: this may introduce 
+breaking changes!  Read the 
 
 ## 2.2.0 - 2019-05-03
 ### Added

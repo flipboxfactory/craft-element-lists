@@ -23,17 +23,6 @@ class AssetList extends Assets implements SortableInterface, RelationalInterface
     /**
      * @inheritdoc
      */
-    public function init()
-    {
-        parent::init();
-
-        $this->inputTemplate = 'element-lists/_components/fieldtypes/input';
-        $this->inputJsClass = 'Craft.NestedElementIndexSelectInput';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public static function displayName(): string
     {
         return ElementList::t('Asset List');
