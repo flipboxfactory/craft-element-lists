@@ -56,7 +56,7 @@ interface RelationshipInterface extends \Countable
      ************************************************************/
 
     /**
-     * A collection of related elements.
+     * A collection of related elements/objects.
      *
      * @return Collection|ElementInterface[]
      */
