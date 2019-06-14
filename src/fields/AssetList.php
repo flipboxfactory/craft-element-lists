@@ -27,7 +27,6 @@ class AssetList extends Assets implements SortableInterface, RelationalInterface
     {
         parent::init();
 
-        $this->settingsTemplate = 'element-lists/_components/fieldtypes/settings';
         $this->inputTemplate = 'element-lists/_components/fieldtypes/input';
         $this->inputJsClass = 'Craft.NestedElementIndexSelectInput';
     }

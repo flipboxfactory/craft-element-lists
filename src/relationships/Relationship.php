@@ -10,7 +10,7 @@ namespace flipbox\craft\element\lists\relationships;
 
 use Craft;
 use craft\base\ElementInterface;
-use craft\elements\db\ElementQueryInterface;
+use craft\elements\db\ElementQuery;
 use craft\helpers\ArrayHelper;
 use craft\helpers\Json;
 use flipbox\craft\element\lists\ElementList;
@@ -21,6 +21,7 @@ use flipbox\craft\ember\helpers\QueryHelper;
 use flipbox\organizations\records\UserAssociation;
 use Tightenco\Collect\Support\Collection;
 use yii\base\BaseObject;
+use yii\base\Exception;
 use yii\base\UnknownPropertyException;
 use yii\db\QueryInterface;
 
@@ -51,7 +52,7 @@ class Relationship extends BaseObject implements RelationshipInterface
      *
      * @var Collection|null
      */
-    private $collection;
+    private $relations;
 
     /**
      * @var bool
@@ -71,32 +72,36 @@ class Relationship extends BaseObject implements RelationshipInterface
         parent::__construct($config);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isMutated(): bool
-    {
-        return $this->mutated;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function exists($object): bool
-    {
-        return null !== $this->findKey($object);
-    }
 
     /************************************************************
      * QUERY
      ************************************************************/
 
     /**
-     * @inheritDoc
+     * @param Association|ElementInterface|int|string $object
+     * @return Association
      */
-    public function getQuery(): ElementQueryInterface
+    public function findOrCreate($object): Association
     {
-        return $this->field->getQuery($this->element);
+        if (null === ($association = $this->findOne($object))) {
+            $association = $this->create($object);
+        }
+
+        return $association;
+    }
+
+    /**
+     * @param Association|ElementInterface|int|string $object
+     * @return Association
+     * @throws Exception
+     */
+    public function findOrFail($object): Association
+    {
+        if (null === ($association = $this->findOne($object))) {
+            throw new Exception("Relationship could not be found.");
+        }
+
+        return $association;
     }
 
 
@@ -107,18 +112,18 @@ class Relationship extends BaseObject implements RelationshipInterface
     /**
      * @return Collection
      */
-    public function getElements(): Collection
+    public function getCollection(): Collection
     {
-        if (null === $this->collection) {
+        if (null === $this->relations) {
             return Collection::make(
-                $this->getQuery()->all()
+                $this->field->getQuery($this->element)->all()
             );
         };
 
         return Collection::make(
-            $this->getQuery()
+            $this->field->getQuery($this->element)
                 ->id(
-                    $this->collection
+                    $this->relations
                         ->sortBy('sortOrder')
                         ->pluck('targetId')
                         ->all()
@@ -132,15 +137,13 @@ class Relationship extends BaseObject implements RelationshipInterface
     /**
      * @inheritDoc
      */
-    public function getCollection(): Collection
+    public function getRelationships(): Collection
     {
-        if (null === $this->collection) {
-            $this->collection = new Collection(
-                $this->query()->all()
-            );
+        if (null === $this->relations) {
+            $this->newRelations($this->query()->all(), false);
         }
 
-        return $this->collection;
+        return $this->relations;
     }
 
 
@@ -156,7 +159,7 @@ class Relationship extends BaseObject implements RelationshipInterface
         foreach ($this->objectArray($objects) as $object) {
             if (null === ($association = $this->findOne($object))) {
                 $association = $this->create($object);
-                $this->addToCache($association);
+                $this->addToRelations($association);
             }
 
             if (!empty($attributes)) {
@@ -179,7 +182,7 @@ class Relationship extends BaseObject implements RelationshipInterface
     {
         foreach ($this->objectArray($objects) as $object) {
             if (null !== ($key = $this->findKey($object))) {
-                $this->removeFromCache($key);
+                $this->removeFromRelations($key);
             }
         }
 
@@ -218,7 +221,7 @@ class Relationship extends BaseObject implements RelationshipInterface
             }
         }
 
-        $this->setCache($newAssociations);
+        $this->newRelations($newAssociations);
         $this->mutated = false;
 
         if (!$success && $this->element) {
@@ -228,17 +231,49 @@ class Relationship extends BaseObject implements RelationshipInterface
         return $success;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function clear(): RelationshipInterface
+    {
+        $this->newRelations([]);
+        return $this;
+    }
+
 
     /**
      * @inheritDoc
      */
     public function reset(): RelationshipInterface
     {
-        $this->collection = null;
+        $this->relations = null;
         $this->mutated = false;
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isMutated(): bool
+    {
+        return $this->mutated;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function exists($object): bool
+    {
+        return null !== $this->findKey($object);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function count()
+    {
+        return $this->getCollection()->count();
+    }
 
     /**
      * @inheritDoc
@@ -252,11 +287,11 @@ class Relationship extends BaseObject implements RelationshipInterface
         $associations = [];
         $order = 1;
         /** @var Association $newAssociation */
-        foreach ($this->getCollection()->sortBy('sortOrder') as $newAssociation) {
+        foreach ($this->getRelationships()->sortBy('sortOrder') as $newAssociation) {
             if (null === ($association = ArrayHelper::remove(
-                    $existingAssociations,
-                    $newAssociation->targetId
-                ))
+                $existingAssociations,
+                $newAssociation->targetId
+            ))
             ) {
                 $association = $newAssociation;
             }
@@ -276,6 +311,7 @@ class Relationship extends BaseObject implements RelationshipInterface
 
     /**
      * Ensure we're working with an array of objects, not configs, etc
+     *
      * @param array|QueryInterface|Collection|ElementInterface|Association $objects
      * @return array
      */
@@ -303,9 +339,9 @@ class Relationship extends BaseObject implements RelationshipInterface
      * @param bool $mutated
      * @return static
      */
-    protected function setCache(array $associations, bool $mutated = true): self
+    protected function newRelations(array $associations, bool $mutated = true): self
     {
-        $this->collection = Collection::make($associations);
+        $this->relations = Collection::make($associations);
         $this->mutated = $mutated;
 
         return $this;
@@ -315,13 +351,13 @@ class Relationship extends BaseObject implements RelationshipInterface
      * @param Association $association
      * @return static
      */
-    protected function addToCache(Association $association): self
+    protected function addToRelations(Association $association): self
     {
-        if (null === $this->collection) {
-            return $this->setCache([$association], true);
+        if (null === $this->relations) {
+            return $this->newRelations([$association], true);
         }
 
-        $this->collection->push($association);
+        $this->relations->push($association);
         $this->mutated = true;
 
         return $this;
@@ -331,9 +367,9 @@ class Relationship extends BaseObject implements RelationshipInterface
      * @param int $key
      * @return static
      */
-    protected function removeFromCache(int $key): self
+    protected function removeFromRelations(int $key): self
     {
-        $this->collection->forget($key);
+        $this->relations->forget($key);
         $this->mutated = true;
 
         return $this;
@@ -383,13 +419,13 @@ class Relationship extends BaseObject implements RelationshipInterface
      * @param Association|ElementInterface|int|string|null $object
      * @return Association|null
      */
-    protected function findOne($object = null)
+    public function findOne($object = null)
     {
         if (null === ($key = $this->findKey($object))) {
             return null;
         }
 
-        return $this->getCollection()->get($key);
+        return $this->getRelationships()->get($key);
     }
 
     /**
@@ -407,7 +443,7 @@ class Relationship extends BaseObject implements RelationshipInterface
         }
 
         // Todo - perform this lookup via Collection method
-        foreach ($this->getCollection() as $key => $association) {
+        foreach ($this->getRelationships() as $key => $association) {
             if ($association->targetId == $element->getId()) {
                 return $key;
             }
@@ -445,7 +481,7 @@ class Relationship extends BaseObject implements RelationshipInterface
 
 
     /*******************************************
-     * MAGIC
+     * MAGIC (pass calls onto query)
      *******************************************/
 
     /**
@@ -457,7 +493,7 @@ class Relationship extends BaseObject implements RelationshipInterface
         try {
             return parent::__get($name);
         } catch (UnknownPropertyException $e) {
-            return $this->getQuery()->{$name};
+            return $this->field->getQuery($this->element)->{$name};
         }
     }
 
@@ -470,7 +506,7 @@ class Relationship extends BaseObject implements RelationshipInterface
         try {
             return parent::__set($name, $value);
         } catch (UnknownPropertyException $e) {
-            return $this->getQuery()->{$name}($value);
+            return $this->field->getQuery($this->element)->{$name}($value);
         }
     }
 
@@ -481,8 +517,10 @@ class Relationship extends BaseObject implements RelationshipInterface
      */
     public function __call($name, $params)
     {
-        if ($this->getQuery()->hasMethod($name)) {
-            return call_user_func_array([$this->getQuery(), $name], $params);
+        /** @var ElementQuery $query */
+        $query = $this->field->getQuery($this->element);
+        if ($query->hasMethod($name)) {
+            return call_user_func_array([$query, $name], $params);
         }
 
         return parent::__call($name, $params);

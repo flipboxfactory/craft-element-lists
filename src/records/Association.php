@@ -51,6 +51,7 @@ class Association extends ActiveRecord
         return Craft::createObject(AssociationQuery::class, [get_called_class()]);
     }
 
+
     /*******************************************
      * RULES
      *******************************************/

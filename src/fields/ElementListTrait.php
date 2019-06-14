@@ -8,14 +8,17 @@
 
 namespace flipbox\craft\element\lists\fields;
 
+use Craft;
+use craft\base\Element;
 use craft\base\ElementInterface;
-use craft\base\FieldInterface;
+use craft\events\FieldElementEvent;
+use flipbox\craft\element\lists\relationships\RelationshipInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  *
- * @mixin FieldInterface
+ * @property string $settingsTemplate
  */
 trait ElementListTrait
 {
@@ -56,9 +59,9 @@ trait ElementListTrait
      * @param bool $sortable
      * @return $this
      */
-    public function setSortable(bool $sortable)
+    public function setSortable(bool $sortable = null)
     {
-        $this->sortable = $sortable;
+        $this->sortable = $sortable === true;
         return $this;
     }
 
@@ -70,5 +73,50 @@ trait ElementListTrait
     public function getSortable(): bool
     {
         return $this->sortable;
+    }
+
+    /**
+     * @inheritDoc
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function getSettingsHtml()
+    {
+        return Craft::$app->getView()->renderTemplate(
+            'element-lists/_components/fieldtypes/settings',
+            [
+                'settingsTemplate' => $this->settingsTemplate,
+                'field' => $this,
+            ]
+        );
+    }
+
+    /**
+     * Our value is not an ElementQueryInterface and therefore we should handle it
+     * differently.
+     *
+     * @inheritdoc
+     */
+    public function afterElementSave(ElementInterface $element, bool $isNew)
+    {
+        // Skip if the element is just propagating, and we're not localizing relations
+        /** @var Element $element */
+        if (!$element->propagating || $this->localizeRelations) {
+            /** @var RelationshipInterface $value */
+            $value = $element->getFieldValue($this->handle);
+
+            if ($value->isMutated()) {
+                $value->save();
+            }
+        }
+
+        // Trigger an 'afterElementSave' event
+        if ($this->hasEventHandlers(self::EVENT_AFTER_ELEMENT_SAVE)) {
+            $this->trigger(self::EVENT_AFTER_ELEMENT_SAVE, new FieldElementEvent([
+                'element' => $element,
+                'isNew' => $isNew,
+            ]));
+        }
     }
 }

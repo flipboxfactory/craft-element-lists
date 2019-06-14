@@ -9,26 +9,48 @@
 namespace flipbox\craft\element\lists\relationships;
 
 use craft\base\ElementInterface;
-use craft\elements\db\ElementQueryInterface;
 use flipbox\craft\element\lists\records\Association;
 use Tightenco\Collect\Support\Collection;
+use yii\base\Exception;
+use yii\db\ActiveRecord;
 use yii\db\QueryInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 3.0.0
  */
-interface RelationshipInterface
+interface RelationshipInterface extends \Countable
 {
 
     /************************************************************
-     * QUERY
+     * FIND
      ************************************************************/
 
     /**
-     * @return ElementQueryInterface
+     * Find a relationship
+     *
+     * @param ActiveRecord|ElementInterface|int|string|null $object
+     * @return ActiveRecord|null
      */
-    public function getQuery(): ElementQueryInterface;
+    public function findOne($object = null);
+
+    /**
+     * Find a relationship or create a new one
+     *
+     * @param Association|ElementInterface|int|string $object
+     * @return Association
+     */
+    public function findOrCreate($object): Association;
+
+    /**
+     * Find a relationship or throw an exception if not found
+     *
+     * @param Association|ElementInterface|int|string $object
+     * @return Association
+     * @throws Exception
+     */
+    public function findOrFail($object): Association;
+
 
     /************************************************************
      * COLLECTIONS
@@ -37,12 +59,12 @@ interface RelationshipInterface
     /**
      * @return Collection|ElementInterface[]
      */
-    public function getElements(): Collection;
+    public function getCollection(): Collection;
 
     /**
      * @return Collection|Association[]
      */
-    public function getCollection(): Collection;
+    public function getRelationships(): Collection;
 
 
     /************************************************************
@@ -100,7 +122,16 @@ interface RelationshipInterface
     public function isMutated(): bool;
 
     /**
+     * Clears all current relationships
+     *
+     * @return RelationshipInterface
+     */
+    public function clear(): RelationshipInterface;
+
+    /**
      * Reset relationships to their original state
+     *
+     * @return RelationshipInterface
      */
     public function reset(): RelationshipInterface;
 }
