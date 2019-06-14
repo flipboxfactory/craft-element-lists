@@ -153,6 +153,7 @@ trait InputTrait
                 'site' => $siteId,
             ],
             'modalSettings' => [
+                'sendDisabledModalElementsAsString' => true,
                 'indexSettings' => [
                     'updateElementsAction' => 'element-lists/element-indexes/get-elements',
                     'submitActionsAction' => 'element-lists/element-indexes/perform-action',

@@ -8,6 +8,7 @@
 
 namespace flipbox\craft\element\lists\fields;
 
+use craft\elements\Asset;
 use craft\fields\Assets;
 use flipbox\craft\element\lists\ElementList;
 
@@ -15,7 +16,7 @@ use flipbox\craft\element\lists\ElementList;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class AssetList extends Assets implements SortableInterface
+class AssetList extends Assets implements SortableInterface, RelationalInterface
 {
     use ElementListTrait;
 
@@ -50,5 +51,18 @@ class AssetList extends Assets implements SortableInterface
                 'sortable'
             ]
         );
+    }
+
+    /**
+     * @inheritDoc
+     * @return Asset|null
+     */
+    public function resolveElement($element)
+    {
+        if (is_numeric($element)) {
+            return \Craft::$app->getAssets()->getAssetById($element);
+        }
+
+        return Asset::findOne($element);
     }
 }

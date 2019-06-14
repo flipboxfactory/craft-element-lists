@@ -8,6 +8,7 @@
 
 namespace flipbox\craft\element\lists\fields;
 
+use craft\elements\Category;
 use craft\fields\Categories;
 use flipbox\craft\element\lists\ElementList;
 
@@ -15,7 +16,7 @@ use flipbox\craft\element\lists\ElementList;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class CategoryList extends Categories implements SortableInterface
+class CategoryList extends Categories implements SortableInterface, RelationalInterface
 {
     use ElementListTrait;
 
@@ -50,5 +51,18 @@ class CategoryList extends Categories implements SortableInterface
                 'sortable'
             ]
         );
+    }
+
+    /**
+     * @inheritDoc
+     * @return Category|null
+     */
+    public function resolveElement($element)
+    {
+        if (is_numeric($element)) {
+            return \Craft::$app->getCategories()->getCategoryById($element);
+        }
+
+        return Category::findOne($element);
     }
 }

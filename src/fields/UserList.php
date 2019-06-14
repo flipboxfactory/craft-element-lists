@@ -8,6 +8,7 @@
 
 namespace flipbox\craft\element\lists\fields;
 
+use craft\elements\User;
 use craft\fields\Users;
 use flipbox\craft\element\lists\ElementList;
 
@@ -15,7 +16,7 @@ use flipbox\craft\element\lists\ElementList;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class UserList extends Users implements SortableInterface
+class UserList extends Users implements SortableInterface, RelationalInterface
 {
     use ElementListTrait;
 
@@ -50,5 +51,22 @@ class UserList extends Users implements SortableInterface
                 'sortable'
             ]
         );
+    }
+
+    /**
+     * inheritDoc
+     * @return User|null
+     */
+    public function resolveElement($element)
+    {
+        if (is_numeric($element)) {
+            return \Craft::$app->getUsers()->getUserById($element);
+        }
+
+        if (is_string($element)) {
+            return \Craft::$app->getUsers()->getUserByUsernameOrEmail($element);
+        }
+
+        return User::findOne($element);
     }
 }

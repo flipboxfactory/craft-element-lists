@@ -11,8 +11,11 @@ namespace flipbox\craft\element\lists\fields;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\elements\db\ElementQuery;
+use craft\elements\db\ElementQueryInterface;
 use craft\helpers\StringHelper;
 use flipbox\craft\element\lists\records\Association;
+use flipbox\craft\element\lists\relationships\Relationship;
+use flipbox\craft\element\lists\relationships\RelationshipInterface;
 use flipbox\craft\ember\helpers\SiteHelper;
 
 /**
@@ -22,24 +25,19 @@ use flipbox\craft\ember\helpers\SiteHelper;
  * @property int|null $id
  * @property int|null $limit
  * @property bool $allowLimit
+ *
+ * @mixin RelationalInterface
  */
 trait NormalizeValueTrait
 {
     abstract protected static function elementType(): string;
 
     /**
-     * @param $value
      * @param ElementInterface|null $element
-     * @return ElementQuery
+     * @return ElementQueryInterface
      */
-    public function normalizeValue(
-        $value,
-        ElementInterface $element = null
-    ) {
-        if ($value instanceof ElementQuery) {
-            return $value;
-        }
-
+    public function getQuery(ElementInterface $element = null): ElementQueryInterface
+    {
         /** @var Element $elementType */
         $elementType = static::elementType();
 
@@ -50,8 +48,32 @@ trait NormalizeValueTrait
             $query->limit($this->limit);
         }
 
-        $this->normalizeQueryValue($query, $value, $element);
+        $this->normalizeQuery($query, $element);
+
         return $query;
+    }
+
+    /**
+     * @param $value
+     * @param ElementInterface|null $element
+     * @return RelationshipInterface
+     */
+    public function normalizeValue(
+        $value,
+        ElementInterface $element = null
+    ) {
+        if ($value instanceof RelationshipInterface) {
+            return $value;
+        }
+
+        $query = $this->getQuery($element);
+
+        $this->normalizeQueryValue($query, $value, $element);
+
+        return new Relationship(
+            $this,
+            $element
+        );
     }
 
     /**
@@ -101,8 +123,6 @@ trait NormalizeValueTrait
         $value,
         ElementInterface $element = null
     ) {
-        $this->normalizeQuery($query, $element);
-
         if (is_array($value)) {
             $this->normalizeQueryInputValues($query, $value, $element);
             return;
