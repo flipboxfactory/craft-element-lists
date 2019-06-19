@@ -344,7 +344,7 @@ class Relationship extends BaseObject implements RelationshipInterface
         $order = 1;
 
         /** @var Association $newAssociation */
-        foreach ($this->getRelationships()->sortBy('sortOrder') as $newAssociation) {
+        foreach ($this->getRelationships() as $newAssociation) {
             $association = ArrayHelper::remove(
                 $existingAssociations,
                 $newAssociation->getTargetId()
@@ -357,11 +357,8 @@ class Relationship extends BaseObject implements RelationshipInterface
 
             // Has anything changed?
             if (!$association->getIsNewRecord() && !$this->hasChanged($newAssociation, $association)) {
-                var_dump("SKIP:" . $association->targetId);
                 continue;
             }
-
-            var_dump("UPDATE:" . $association->targetId);
 
             $associations[] = $this->sync($association, $newAssociation);
         }
@@ -387,10 +384,6 @@ class Relationship extends BaseObject implements RelationshipInterface
      */
     private function sync(Association $to, Association $from): Association
     {
-        $to->sourceId = $from->sourceId;
-        $to->targetId = $from->targetId;
-        $to->fieldId = $from->fieldId;
-        $to->sourceSiteId = $from->sourceSiteId;
         $to->sortOrder = $from->sortOrder;
 
         $to->ignoreSortOrder();
