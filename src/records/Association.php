@@ -9,6 +9,8 @@
 namespace flipbox\craft\element\lists\records;
 
 use Craft;
+use craft\base\Element;
+use craft\base\ElementInterface;
 use craft\errors\FieldNotFoundException;
 use flipbox\craft\element\lists\fields\SortableInterface;
 use flipbox\craft\ember\records\ActiveRecord;
@@ -26,7 +28,9 @@ use flipbox\craft\element\lists\queries\AssociationQuery;
  */
 class Association extends ActiveRecord
 {
-    use SourceSiteAttributeTrait,
+    use SourceAttributeTrait,
+        TargetAttributeTrait,
+        SourceSiteAttributeTrait,
         FieldAttributeTrait,
         SortableTrait;
 
@@ -38,7 +42,7 @@ class Association extends ActiveRecord
     /**
      * @inheritdoc
      */
-    protected $getterPriorityAttributes = ['fieldId', 'siteId', 'sourceSiteId'];
+    protected $getterPriorityAttributes = ['fieldId', 'siteId', 'sourceSiteId', 'sourceId', 'targetId'];
 
     /**
      * @noinspection PhpDocMissingThrowsInspection
@@ -65,6 +69,8 @@ class Association extends ActiveRecord
             parent::rules(),
             $this->sourceSiteRules(),
             $this->fieldRules(),
+            $this->sourceRules(),
+            $this->targetRules(),
             [
                 [
                     [
@@ -83,18 +89,20 @@ class Association extends ActiveRecord
                         'fieldId',
                         'sourceSiteId'
                     ]
-                ],
-                [
-                    [
-                        'targetId',
-                        'sourceId',
-                    ],
-                    'safe',
-                    'on' => [
-                        static::SCENARIO_DEFAULT
-                    ]
                 ]
             ]
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return array_merge(
+            parent::attributeLabels(),
+            $this->sourceAttributeLabels(),
+            $this->targetAttributeLabels()
         );
     }
 
@@ -178,5 +186,44 @@ class Association extends ActiveRecord
 
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getField();
+    }
+
+
+    /*******************************************
+     * RESOLVERS
+     *******************************************/
+
+    /**
+     * @param string $attribute
+     * @return Element|ElementInterface|null
+     */
+    protected function resolveElementFromIdAttribute(string $attribute)
+    {
+        if (null === $this->{$attribute}) {
+            return null;
+        }
+
+        return Craft::$app->getElements()->getElementById($this->{$attribute});
+    }
+
+    /**
+     * @param mixed $element
+     * @return Element|ElementInterface|null
+     */
+    protected function resolveElement($element = null)
+    {
+        if ($element === null) {
+            return null;
+        }
+
+        if ($element instanceof ElementInterface) {
+            return $element;
+        }
+
+        if (is_numeric($element)) {
+            return Craft::$app->getElements()->getElementById($element);
+        }
+
+        return null;
     }
 }
