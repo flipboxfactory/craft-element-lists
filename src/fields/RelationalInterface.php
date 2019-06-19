@@ -15,7 +15,7 @@ use craft\elements\db\ElementQueryInterface;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 3.0.0
  */
-interface RelationalInterface
+interface RelationalInterface extends SortableInterface
 {
     /**
      * @param ElementInterface|null $element

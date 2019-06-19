@@ -11,7 +11,6 @@ namespace flipbox\craft\element\lists\fields;
 use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
-use craft\elements\db\ElementQuery;
 use craft\events\FieldElementEvent;
 use flipbox\craft\element\lists\relationships\RelationshipInterface;
 
@@ -62,7 +61,7 @@ trait ElementListTrait
      */
     public function setSortable(bool $sortable = null)
     {
-        $this->sortable = $sortable === true;
+        $this->sortable = ($sortable === true);
         return $this;
     }
 

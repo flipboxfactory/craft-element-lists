@@ -124,12 +124,19 @@ class Relationship extends BaseObject implements RelationshipInterface
     {
         if (null === $this->relations) {
             return Collection::make(
-                $this->field->getQuery($this->element)->all()
+                $this->field->getQuery($this->element)
+                    ->anyStatus()
+                    ->all()
             );
         };
 
-        return $this->getRelationships()
-            ->pluck('target');
+        return new Collection(
+            $this->field->getQuery($this->element)
+                ->id($this->getRelationships()->pluck('targetId')->all())
+                ->fixedOrder(true)
+                ->anyStatus()
+                ->all()
+        );
     }
 
     /**
@@ -143,31 +150,15 @@ class Relationship extends BaseObject implements RelationshipInterface
 
         return $this->relations;
     }
-
+    
     /**
      * @return Collection
      */
     protected function existingRelationships()
     {
-        $relationships = $this->associationQuery()
-            ->all();
-
-        // 'eager' load where we'll pre-populate target associations
-        $elements = $this->field->getQuery($this->element)
-            ->indexBy('id')
-            ->all();
-
-        return $this->createRelations($relationships)
-            ->transform(function (Association $association) use ($elements) {
-                if (isset($elements[$association->getTargetId()])) {
-                    $association->setTarget($elements[$association->getTargetId()]);
-                }
-
-                $association->setSource($this->element);
-                $association->setField($this->field);
-
-                return $association;
-            });
+        return $this->createRelations(
+            $this->associationQuery()->all()
+        );
     }
 
     /************************************************************
@@ -217,7 +208,6 @@ class Relationship extends BaseObject implements RelationshipInterface
 
         if ($isNew) {
             $this->addToRelations($association);
-            $this->mutated = true;
         }
 
         return $this;
@@ -373,7 +363,8 @@ class Relationship extends BaseObject implements RelationshipInterface
      */
     private function hasChanged(Association $new, Association $existing): bool
     {
-        return $new->sortOrder != $existing->sortOrder;
+        return $this->field->ensureSortOrder() &&
+            $new->sortOrder != $existing->sortOrder;
     }
 
     /**
@@ -444,7 +435,7 @@ class Relationship extends BaseObject implements RelationshipInterface
             return $this->newRelations([$association], true);
         }
 
-        $this->relations->push($association);
+        $this->insertCollection($this->relations, $association);
         $this->mutated = true;
 
         return $this;
@@ -483,7 +474,7 @@ class Relationship extends BaseObject implements RelationshipInterface
      */
     protected function insertCollection(Collection $collection, Association $association)
     {
-        if ($association->sortOrder > 0) {
+        if ($this->field->ensureSortOrder() && $association->sortOrder > 0) {
             $collection->splice($association->sortOrder - 1, 0, [$association]);
             return;
         }
@@ -496,6 +487,10 @@ class Relationship extends BaseObject implements RelationshipInterface
      */
     protected function updateCollection(Collection $collection, Association $association)
     {
+        if (!$this->field->ensureSortOrder()) {
+            return;
+        }
+
         if (null !== ($key = $this->findKey($association))) {
             $collection->offsetUnset($key);
         }
