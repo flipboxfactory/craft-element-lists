@@ -130,9 +130,14 @@ class Relationship extends BaseObject implements RelationshipInterface
             );
         };
 
+        $ids = $this->getRelationships()->pluck('targetId')->all();
+        if (empty($ids)) {
+            return $this->getRelationships()->pluck('target');
+        }
+
         return new Collection(
             $this->field->getQuery($this->element)
-                ->id($this->getRelationships()->pluck('targetId')->all())
+                ->id($ids)
                 ->fixedOrder(true)
                 ->anyStatus()
                 ->all()
