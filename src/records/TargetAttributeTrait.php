@@ -45,6 +45,14 @@ trait TargetAttributeTrait
     abstract protected function resolveElement($element = null);
 
     /**
+     * @return bool
+     */
+    public function isTargetSet(): bool
+    {
+        return null !== $this->target;
+    }
+
+    /**
      * @return array
      */
     protected function targetRules(): array

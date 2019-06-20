@@ -45,6 +45,14 @@ trait SourceAttributeTrait
     abstract protected function resolveElement($element = null);
 
     /**
+     * @return bool
+     */
+    public function isSourceSet(): bool
+    {
+        return null !== $this->source;
+    }
+
+    /**
      * @return array
      */
     protected function sourceRules(): array
