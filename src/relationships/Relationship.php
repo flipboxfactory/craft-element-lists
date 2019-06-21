@@ -450,11 +450,7 @@ class Relationship extends BaseObject implements RelationshipInterface
      */
     protected function addToRelations(Association $association): self
     {
-        if (null === $this->relations) {
-            return $this->newRelations([$association], true);
-        }
-
-        $this->insertCollection($this->relations, $association);
+        $this->insertCollection($this->getRelationships(), $association);
         $this->mutated = true;
 
         return $this;
@@ -590,6 +586,10 @@ class Relationship extends BaseObject implements RelationshipInterface
      */
     private function findRelationshipKey($identifier)
     {
+        if (null === $identifier) {
+            return null;
+        }
+
         /** @var Association $association */
         foreach ($this->getRelationships()->all() as $key => $association) {
             if ($association->targetId == $identifier) {
