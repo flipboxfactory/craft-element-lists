@@ -12,6 +12,7 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\elements\db\ElementQuery;
+use craft\elements\db\ElementQueryInterface;
 use craft\helpers\ArrayHelper;
 use flipbox\craft\element\lists\fields\RelationalInterface;
 use flipbox\craft\element\lists\queries\AssociationQuery;
@@ -166,6 +167,19 @@ class Relationship extends BaseObject implements RelationshipInterface
         );
     }
 
+
+    /************************************************************
+     * QUERY
+     ************************************************************/
+
+    /**
+     * @return ElementQueryInterface
+     */
+    public function getQuery(): ElementQueryInterface
+    {
+        return $this->field->getQuery($this->element);
+    }
+
     /************************************************************
      * ADD / REMOVE
      ************************************************************/
@@ -264,7 +278,7 @@ class Relationship extends BaseObject implements RelationshipInterface
             }
         }
 
-        $this->mutated = false;
+        $this->reset();
 
         if (!$success && $this->element) {
             $this->element->addError($this->field->handle, 'Unable to save relationship.');
@@ -627,7 +641,7 @@ class Relationship extends BaseObject implements RelationshipInterface
         try {
             return parent::__get($name);
         } catch (UnknownPropertyException $e) {
-            return $this->field->getQuery($this->element)->{$name};
+            return $this->getQuery()->{$name};
         }
     }
 
@@ -640,7 +654,7 @@ class Relationship extends BaseObject implements RelationshipInterface
         try {
             return parent::__set($name, $value);
         } catch (UnknownPropertyException $e) {
-            return $this->field->getQuery($this->element)->{$name}($value);
+            return $this->getQuery()->{$name}($value);
         }
     }
 
@@ -652,7 +666,7 @@ class Relationship extends BaseObject implements RelationshipInterface
     public function __call($name, $params)
     {
         /** @var ElementQuery $query */
-        $query = $this->field->getQuery($this->element);
+        $query = $this->getQuery();
         if ($query->hasMethod($name)) {
             return call_user_func_array([$query, $name], $params);
         }

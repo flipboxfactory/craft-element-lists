@@ -9,6 +9,7 @@
 namespace flipbox\craft\element\lists\relationships;
 
 use craft\base\ElementInterface;
+use craft\elements\db\ElementQueryInterface;
 use flipbox\craft\element\lists\records\Association;
 use Tightenco\Collect\Support\Collection;
 use yii\base\Exception;
@@ -68,6 +69,16 @@ interface RelationshipInterface extends \Countable
      * @return Collection|Association[]
      */
     public function getRelationships(): Collection;
+
+
+    /************************************************************
+     * QUERY
+     ************************************************************/
+
+    /**
+     * @return ElementQueryInterface
+     */
+    public function getQuery(): ElementQueryInterface;
 
 
     /************************************************************
