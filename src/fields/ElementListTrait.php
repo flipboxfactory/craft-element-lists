@@ -71,4 +71,12 @@ trait ElementListTrait
     {
         return $this->sortable;
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function serializeValue($value, ElementInterface $element = null)
+    {
+        return null;
+    }
 }
