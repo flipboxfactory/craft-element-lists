@@ -104,22 +104,26 @@ trait ModifyElementQueryTrait
         $alias = Association::tableAlias();
         $name = Association::tableName();
 
-        $query->innerJoin(
-            "{$name} {$alias}",
-            [
-                'and',
-                '[['.$alias.'.targetId]] = [[elements.id]]',
+        $table = "{$name} {$alias}";
+
+        if (!is_array($query->join) || !$query->isJoined($table)) {
+            $query->innerJoin(
+                $table,
                 [
-                    $alias . '.sourceId' => $sourceId,
-                    $alias . '.fieldId' => $this->id,
-                ],
-                [
-                    'or',
-                    [$alias . '.sourceSiteId' => null],
-                    [$alias . '.sourceSiteId' => $siteId]
+                    'and',
+                    '[[' . $alias . '.targetId]] = [[elements.id]]',
+                    [
+                        $alias . '.sourceId' => $sourceId,
+                        $alias . '.fieldId' => $this->id,
+                    ],
+                    [
+                        'or',
+                        [$alias . '.sourceSiteId' => null],
+                        [$alias . '.sourceSiteId' => $siteId]
+                    ]
                 ]
-            ]
-        );
+            );
+        }
     }
 
     /**

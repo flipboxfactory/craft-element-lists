@@ -187,11 +187,15 @@ JS;
      */
     public function getSettingsHtml()
     {
+        /** @var ElementInterface|string $elementType */
+        $elementType = $this->elementType();
+
         return Craft::$app->getView()->renderTemplate(
             'element-lists/_components/fieldtypes/settings',
             [
                 'settingsTemplate' => $this->settingsTemplate,
                 'field' => $this,
+                'pluralElementType' => $elementType::pluralDisplayName(),
             ]
         );
     }

@@ -1,6 +1,6 @@
 {
   "name": "flipboxfactory/craft-element-lists",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Simple Element lists",
   "type": "craft-plugin",
   "keywords": [
@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "craftcms/cms": "^3.0",
+    "craftcms/cms": "^3.2",
     "flipboxfactory/craft-ember": "^2.4.0",
     "flipboxfactory/craft-elements-nested-index": "^2.3.0",
     "tightenco/collect": "^5.5"
@@ -58,7 +58,7 @@
     "schemaVersion": "1.1.0",
     "branch-alias": {
       "dev-master": "2.0.x-dev",
-      "dev-develop": "3.0.x-dev"
+      "dev-develop": "3.1.x-dev"
     }
   }
 }
