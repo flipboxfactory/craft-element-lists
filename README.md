@@ -11,14 +11,18 @@ Element List introduces a table-based element relational field type; perfect for
 ![Screenshot](resources/screenshots/field.png)
 
 ## New in Version 3
-Element List fields now return a [Relationship Interface], not an [Element Query Interface].  This introduces breaking
-changes; however legacy [Element Query Interface] method are still available, but discuraged from using.  
+Element List field(s) return a [Relationship Interface] (not the traditional [Element Query Interface]).  As a result, the following scenarios should be re-evaluated:
+ 
+ * Managing relations is no long performed by setting values to the query result cache.  Instead, use the [Relationship Interface] `add`, `remove`, and `save` methods (examples are below).
+ * Applying query filters to fields has changed.  As an example; `{% set relatedElements = element.YOUR_FIELD.limit(20).status('archived').all() %}` would change to `{% set relatedElements = element.YOUR_FIELD.query.limit(20).status('archived').all() %}`.
 
-The [Relationship Interface] introduces intuitive relationship management methods such as `add`, `remove`, and `save`.  
-Calling `RelationshipInterface::getCollection()` will return a [Collection] of related elements.
+The suggested way to interact with the field results is via the [Collection].
+```twig
+{% set collection = element.YOUR_FIELD.collection %}
+```
 
 ## Requirements
-This plugin requires Craft CMS 3.0 or later.
+This plugin requires Craft CMS 3.2 or later.
 
 ## Installation
 Choose one of the following ways to add [Element List] to your project:
@@ -76,24 +80,17 @@ Loop through field relations:
 </ul>
 ```
 
-The legacy query operations are still accessible, but discouraged.
-```twig
-<ul>
-    {% for relatedElement in element.fieldHandle.all() %}
-        <li>{{ relatedElement.id }} - {{ relatedElement.someCustomField }}</li>
-    {% endfor %}
-</ul>
-```
+The legacy query operations from version 1 & 2 (above) are still accessible (but discouraged).
 
 ### Collections *(new in Version 3)*
-In version 3 you'll begin to work with [Collections].  These are super handy classes
+In version 3 you'll begin to work with a [Collection].  These are super handy classes
 with various [methods](https://laravel.com/docs/5.8/collections#available-methods) to interact with your data.
 
 ### Eager Loading
 Element Lists also supports eager-loading.  Simply follow the native [nested sets eager loading documentation](https://docs.craftcms.com/v3/dev/eager-loading-elements.html#eager-loading-nested-sets-of-elements).
 
 ### Developers
-Native relationship fields are not developer friendly so in version 3 we introduced the concept of a [Relationship Interface].   
+Native relationship fields are not developer friendly; we aim to fix that in version 3 by introducing the concept of a [Relationship Interface].   
 Here are a few examples:
 
 ```php
