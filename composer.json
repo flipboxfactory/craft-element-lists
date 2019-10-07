@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "craftcms/cms": "^3.2",
+    "craftcms/cms": ">=3.2.0 <3.4",
     "flipboxfactory/craft-ember": "^2.4.0",
     "flipboxfactory/craft-elements-nested-index": "^2.3.0",
     "tightenco/collect": "^5.5"

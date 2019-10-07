@@ -3,7 +3,11 @@ Changelog
 ### Unreleased
 ### Changed
 - Field value is now a `RelationshipInterface` and not the default `ElementQueryInterface`.  Note: this may introduce 
-breaking changes!  Read the 
+breaking changes!
+
+## 2.2.1 - 2019-09-24
+### Fixed
+- Fixing issue w/ relation alias used in Craft 3.2.x
 
 ## 2.2.0 - 2019-05-03
 ### Added
