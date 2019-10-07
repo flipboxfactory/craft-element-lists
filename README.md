@@ -11,18 +11,12 @@ Element List introduces a table-based element relational field type; perfect for
 ![Screenshot](resources/screenshots/field.png)
 
 ## New in Version 3
-Element List field(s) return a [Relationship Interface] (not the traditional [Element Query Interface]).  As a result, the following scenarios should be re-evaluated:
- 
- * Managing relations is no long performed by setting values to the query result cache.  Instead, use the [Relationship Interface] `add`, `remove`, and `save` methods (examples are below).
- * Applying query filters to fields has changed.  As an example; `{% set relatedElements = element.YOUR_FIELD.limit(20).status('archived').all() %}` would change to `{% set relatedElements = element.YOUR_FIELD.query.limit(20).status('archived').all() %}`.
+Element List field(s) return a [Relationship Interface] (not the traditional [Element Query Interface]).  As a result, any custom business logic (php/plugins/modules) that interacts with this field should be evaluated.  Specifically, manipulating relations should use the `add`, `remove`, and `save` methods on the [Relationship Interface] (examples are below).
 
-The suggested way to interact with the field results is via the [Collection].
-```twig
-{% set collection = element.YOUR_FIELD.collection %}
-```
+__Note: Accessing field data using the legacy [Element Query Interface] via TWIG is still supported; no code change are required.__
 
 ## Requirements
-This plugin requires Craft CMS 3.2 or later.
+This plugin requires Craft CMS 3.2.x thru Craft 3.3.x.
 
 ## Installation
 Choose one of the following ways to add [Element List] to your project:
