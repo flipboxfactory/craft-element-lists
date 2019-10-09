@@ -8,6 +8,7 @@
 
 namespace flipbox\craft\element\lists\actions\source;
 
+use Craft;
 use craft\base\Field;
 use flipbox\craft\ember\actions\ManageTrait;
 use flipbox\craft\ember\helpers\SiteHelper;
@@ -48,16 +49,18 @@ class Associate extends Action
 
         /** @var Field $field */
 
-        $siteId = SiteHelper::ensureSiteId($siteId ?: $source->siteId);
+        $siteId = $this->resolveSiteId($siteId ?: $source->siteId);
 
-        $record = Association::find()
+        $query = Association::find()
             ->fieldId($field->id)
             ->sourceId($source->getId() ?: false)
-            ->targetId($target->getId() ?: false)
-            ->siteId($siteId)
-            ->one();
+            ->targetId($target->getId() ?: false);
 
-        if (!$record) {
+        if ($siteId) {
+            $query->siteId($siteId);
+        }
+
+        if (!$record = $query->one()) {
             $record = new Association([
                 'fieldId' => $field->id,
                 'sourceId' => $source->getId(),

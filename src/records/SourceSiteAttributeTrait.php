@@ -89,10 +89,10 @@ trait SourceSiteAttributeTrait
     }
 
     /**
-     * @param int $id
+     * @param int|null $id
      * @return SourceSiteAttributeTrait
      */
-    public function setSiteId(int $id)
+    public function setSiteId(int $id = null)
     {
         return $this->setSourceSiteId($id);
     }
@@ -127,10 +127,10 @@ trait SourceSiteAttributeTrait
     /**
      * Set associated sourceSiteId
      *
-     * @param $id
+     * @param int|null $id
      * @return $this
      */
-    public function setSourceSiteId(int $id)
+    public function setSourceSiteId(int $id = null)
     {
         $this->sourceSiteId = $id;
         return $this;

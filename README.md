@@ -11,7 +11,7 @@ Element List introduces a table-based element relational field type; perfect for
 ![Screenshot](resources/screenshots/field.png)
 
 ## New in Version 3
-Element List field(s) return a [Relationship Interface] (not the traditional [Element Query Interface]).  As a result, any custom business logic (php/plugins/modules) that interacts with this field should be evaluated.  Specifically, manipulating relations should use the `add`, `remove`, and `save` methods on the [Relationship Interface] (examples are below).
+Element List field(s) now return a [Relationship Interface] (not the traditional [Element Query Interface]).  As a result, if your app manipulates relationships in a custom manner (php/plugins/modules) some changes are required.  Specifically, manipulating relations should use the `add`, `remove`, and `save` methods on the [Relationship Interface] (examples are below).
 
 __Note: Accessing field data using the legacy [Element Query Interface] via TWIG is still supported; no code change are required.__
 

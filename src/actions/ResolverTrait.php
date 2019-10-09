@@ -12,6 +12,7 @@ use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\base\FieldInterface;
+use flipbox\craft\ember\helpers\SiteHelper;
 use yii\web\HttpException;
 
 /**
@@ -54,5 +55,19 @@ trait ResolverTrait
         };
 
         return $element;
+    }
+
+    /**
+     * @param int|null $siteId
+     * @return int|null
+     * @throws \craft\errors\SiteNotFoundException
+     */
+    protected function resolveSiteId(int $siteId = null)
+    {
+        if (!Craft::$app->getIsMultiSite() || Craft::$app->getSites()->getCurrentSite()->primary) {
+            return null;
+        }
+
+        return SiteHelper::ensureSiteId($siteId);
     }
 }

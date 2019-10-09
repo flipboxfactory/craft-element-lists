@@ -51,16 +51,18 @@ class Dissociate extends Action
 
         /** @var Field $field */
 
-        $siteId = SiteHelper::ensureSiteId($siteId ?: $source->siteId);
+        $siteId = $this->resolveSiteId($siteId ?: $source->siteId);
 
-        $record = Association::find()
+        $query = Association::find()
             ->fieldId($field->id)
             ->sourceId($source->getId() ?: false)
-            ->targetId($target->getId() ?: false)
-            ->siteId($siteId)
-            ->one();
+            ->targetId($target->getId() ?: false);
 
-        if (!$record) {
+        if ($siteId) {
+            $query->siteId($siteId);
+        }
+
+        if (!$record = $query->one()) {
             return true;
         }
 
