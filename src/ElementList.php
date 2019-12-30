@@ -34,7 +34,7 @@ class ElementList extends Plugin
      *
      * @var string
      */
-    protected static $category = 'element-lists';
+    public static $category = 'element-lists';
 
     /**
      * @inheritdoc
