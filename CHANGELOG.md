@@ -1,5 +1,9 @@
 Changelog
 =========
+## 3.0.1 - 2019-12-30
+### Changed
+- Plugin variable `$category` is publicly accessible.
+
 ## 3.0.0 - 2019-10-09
 ### Changed
 - Field value is now a `RelationshipInterface` and not the default `ElementQueryInterface`.  Note: this may introduce 
