@@ -1,5 +1,10 @@
 Changelog
 =========
+
+## 3.1.0 - 2020-07-14
+### Changed
+- Adding support for Craft 3.4
+
 ## 3.0.1 - 2019-12-30
 ### Changed
 - Plugin variable `$category` is publicly accessible.

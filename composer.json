@@ -20,7 +20,7 @@
   "require": {
     "craftcms/cms": ">=3.4.0",
     "flipboxfactory/craft-ember": "^2.4.0",
-    "flipboxfactory/craft-elements-nested-index": "^2.3.0",
+    "flipboxfactory/craft-elements-nested-index": "^2.4.0",
     "tightenco/collect": "^5.5"
   },
   "require-dev": {
@@ -57,7 +57,7 @@
     "hasCpSection": false,
     "schemaVersion": "1.1.0",
     "branch-alias": {
-      "dev-master": "3.1.x-dev",
+      "dev-master": "3.0.x-dev",
       "dev-develop": "3.1.x-dev"
     }
   }
