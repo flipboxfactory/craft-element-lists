@@ -1,5 +1,9 @@
 Changelog
 =========
+## 3.0.2 - 2021-01-05
+### Fixed
+- Lists nested inside Matrix blocks would return incorrect relations.
+
 ## 3.0.1 - 2019-12-30
 ### Changed
 - Plugin variable `$category` is publicly accessible.
