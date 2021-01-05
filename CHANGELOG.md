@@ -1,9 +1,17 @@
 Changelog
 =========
 
+## 3.1.1 - 2021-01-05
+### Changed
+- Lists nested inside Matrix blocks would return incorrect relations.
+
 ## 3.1.0 - 2020-07-14
 ### Changed
 - Adding support for Craft 3.4
+
+## 3.0.2 - 2021-01-05
+### Fixed
+- Lists nested inside Matrix blocks would return incorrect relations.
 
 ## 3.0.1 - 2019-12-30
 ### Changed
