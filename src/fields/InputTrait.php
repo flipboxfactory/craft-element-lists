@@ -220,9 +220,10 @@ trait InputTrait
             'criteria' => [
                 'enabledForSite' => null,
                 'siteId' => $siteId,
-                $this->handle => [
-                    'source' => $elementId,
-                    'sourceSiteId' => $siteId
+                'relatedTo' => [
+                    'sourceElement' => $elementId,
+                    'field' => $this->id,
+                    'sourceSite' => $siteId
                 ]
             ],
             'viewParams' => [
