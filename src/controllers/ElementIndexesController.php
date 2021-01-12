@@ -11,10 +11,7 @@ namespace flipbox\craft\element\lists\controllers;
 use Craft;
 use craft\base\Element;
 use craft\events\RegisterElementActionsEvent;
-use craft\events\RegisterElementSortOptionsEvent;
-use flipbox\craft\element\lists\ElementList;
 use flipbox\craft\element\lists\elements\actions\DissociateFromElementAction;
-use flipbox\craft\element\lists\records\Association;
 use yii\base\Event;
 
 /**
@@ -44,18 +41,6 @@ class ElementIndexesController extends \craft\controllers\ElementIndexesControll
                 'sourceId' => $this->sourceId(),
                 'fieldId' => $this->fieldId()
             ]
-        );
-
-        Event::on(
-            Element::class,
-            Element::EVENT_REGISTER_SORT_OPTIONS,
-            function (RegisterElementSortOptionsEvent $event) {
-                $event->sortOptions[] = [
-                    'label' => ElementList::t('Field Order'),
-                    'attribute' => 'field',
-                    'orderBy' => Association::TABLE_ALIAS . '.sortOrder'
-                ];
-            }
         );
 
         $this->normalizeDisabledElementIds();
