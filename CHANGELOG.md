@@ -1,5 +1,8 @@
 Changelog
 =========
+## 3.1.2 - 2021-01-12
+### Fixed
+- Sorting by field's sort order would throw an error within Matrix blocks.
 
 ## 3.1.1 - 2021-01-05
 ### Changed
@@ -8,6 +11,10 @@ Changelog
 ## 3.1.0 - 2020-07-14
 ### Changed
 - Adding support for Craft 3.4
+
+## 3.0.3 - 2021-01-12
+### Fixed
+- Sorting by field's sort order would throw an error within Matrix blocks.
 
 ## 3.0.2 - 2021-01-05
 ### Fixed
