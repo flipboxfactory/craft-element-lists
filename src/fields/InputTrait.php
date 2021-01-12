@@ -93,18 +93,12 @@ trait InputTrait
 
         Craft::$app->getView()->registerAssetBundle(NestedElementIndex::class);
 
-        $sortOptions = [];
-        if ($this->context === 'global') {
-            $sortOptions['field'] = ElementList::t('Field Order');
-        }
-
         return [
             'sources' => $this->inputToIndexSources(
                 $this->inputSources($element)
             ),
             'element' => $element,
             'container' => 'nested-index-' . $this->handle,
-            'fieldSortOptions' => $sortOptions,
             'elementType' => static::elementType(),
             'inputJsClass' => 'Craft.NestedElementIndexSelectInput',
             'inputJs' => $this->getInputJs($value, $element),
