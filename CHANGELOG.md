@@ -1,5 +1,10 @@
 Changelog
 =========
+
+## 3.0.3 - 2021-01-12
+### Fixed
+- Sorting by field's sort order would throw an error within Matrix blocks.
+
 ## 3.0.2 - 2021-01-05
 ### Fixed
 - Lists nested inside Matrix blocks would return incorrect relations.
