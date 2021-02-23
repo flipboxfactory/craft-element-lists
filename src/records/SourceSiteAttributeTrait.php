@@ -62,7 +62,7 @@ trait SourceSiteAttributeTrait
                 ],
                 'safe',
                 'on' => [
-                    ModelHelper::SCENARIO_DEFAULT
+                    static::SCENARIO_DEFAULT
                 ]
             ]
         ];

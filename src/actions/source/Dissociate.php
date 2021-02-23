@@ -9,11 +9,11 @@
 namespace flipbox\craft\element\lists\actions\source;
 
 use craft\base\Field;
-use flipbox\craft\ember\actions\ManageTrait;
-use flipbox\craft\ember\helpers\SiteHelper;
 use flipbox\craft\element\lists\actions\ResolverTrait;
 use flipbox\craft\element\lists\records\Association;
+use flipbox\craft\ember\actions\records\ManageRecordTrait;
 use yii\base\Action;
+use yii\db\ActiveRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -21,7 +21,7 @@ use yii\base\Action;
  */
 class Dissociate extends Action
 {
-    use ManageTrait,
+    use ManageRecordTrait,
         ResolverTrait;
 
     /**
@@ -34,7 +34,8 @@ class Dissociate extends Action
      * @param string $source
      * @param string $target
      * @param int|null $siteId
-     * @return mixed
+     * @return bool|mixed
+     * @throws \craft\errors\SiteNotFoundException
      * @throws \yii\web\HttpException
      */
     public function run(
@@ -75,7 +76,7 @@ class Dissociate extends Action
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    protected function performAction(Association $record): bool
+    protected function performAction(ActiveRecord $record): bool
     {
         return $record->delete();
     }

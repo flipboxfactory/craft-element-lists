@@ -8,13 +8,12 @@
 
 namespace flipbox\craft\element\lists\actions\source;
 
-use Craft;
 use craft\base\Field;
-use flipbox\craft\ember\actions\ManageTrait;
-use flipbox\craft\ember\helpers\SiteHelper;
+use flipbox\craft\ember\actions\records\ManageRecordTrait;
 use flipbox\craft\element\lists\actions\ResolverTrait;
 use flipbox\craft\element\lists\records\Association;
 use yii\base\Action;
+use yii\db\ActiveRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -22,7 +21,7 @@ use yii\base\Action;
  */
 class Associate extends Action
 {
-    use ManageTrait,
+    use ManageRecordTrait,
         ResolverTrait;
 
     /**
@@ -32,6 +31,7 @@ class Associate extends Action
      * @param int|null $siteId
      * @param int|null $sortOrder
      * @return mixed
+     * @throws \craft\errors\SiteNotFoundException
      * @throws \yii\web\HttpException
      */
     public function run(
@@ -81,7 +81,7 @@ class Associate extends Action
      * @param Association $record
      * @throws \Exception
      */
-    protected function performAction(Association $record): bool
+    protected function performAction(ActiveRecord $record): bool
     {
         return $record->save();
     }
