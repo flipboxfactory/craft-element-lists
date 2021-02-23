@@ -1,6 +1,10 @@
 Changelog
 =========
+
 ## 3.1.3 - 2021-03-23
+### Fixed
+- Various PHP 8 compatiblity issues
+
 ### Updated
 - Opened `tightenco/collect` dependency up to >=5.5
 
