@@ -1,6 +1,6 @@
 {
   "name": "flipboxfactory/craft-element-lists",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "Simple Element lists",
   "type": "craft-plugin",
   "keywords": [
@@ -21,7 +21,7 @@
     "craftcms/cms": ">=3.4.0",
     "flipboxfactory/craft-ember": "^2.4.0",
     "flipboxfactory/craft-elements-nested-index": "^2.4.0",
-    "tightenco/collect": "^5.5"
+    "tightenco/collect": ">=5.5"
   },
   "require-dev": {
     "phpunit/phpunit": "^5.0",

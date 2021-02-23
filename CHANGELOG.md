@@ -1,5 +1,9 @@
 Changelog
 =========
+## 3.1.3 - 2021-03-23
+### Updated
+- Opened `tightenco/collect` dependency up to >=5.5
+
 ## 3.1.2 - 2021-01-12
 ### Fixed
 - Sorting by field's sort order would throw an error within Matrix blocks.
