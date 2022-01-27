@@ -1,5 +1,11 @@
 Changelog
 =========
+
+## 3.2.0 - 2022-01-27
+### Added
+- Relationship inherits a Component and therefore can have behaviors registered to it
+- Relationship has an event that gets triggered prior to building a query, allowing manipulations to it
+
 ## 3.1.3 - 2021-03-23
 ### Updated
 - Opened `tightenco/collect` dependency up to >=5.5
