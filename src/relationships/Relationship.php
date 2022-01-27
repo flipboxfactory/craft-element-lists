@@ -14,12 +14,13 @@ use craft\base\Field;
 use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\helpers\ArrayHelper;
+use flipbox\craft\element\lists\events\CancelableQueryEvent;
 use flipbox\craft\element\lists\fields\RelationalInterface;
 use flipbox\craft\element\lists\queries\AssociationQuery;
 use flipbox\craft\element\lists\records\Association;
 use flipbox\organizations\records\UserAssociation;
 use Tightenco\Collect\Support\Collection;
-use yii\base\BaseObject;
+use yii\base\Component;
 use yii\base\Exception;
 use yii\base\UnknownPropertyException;
 use yii\db\QueryInterface;
@@ -30,7 +31,7 @@ use yii\db\QueryInterface;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 3.0.0
  */
-class Relationship extends BaseObject implements RelationshipInterface
+class Relationship extends Component implements RelationshipInterface
 {
     /**
      * The element the relations are related to
@@ -38,6 +39,11 @@ class Relationship extends BaseObject implements RelationshipInterface
      * @var ElementInterface|null
      */
     private $element;
+
+    /**
+     * @event Event An event that is triggered while building relationships.
+     */
+    const EVENT_BUILD_RELATIONSHIPS = 'buldRelationships';
 
     /**
      * The field which accesses the relations
@@ -69,6 +75,14 @@ class Relationship extends BaseObject implements RelationshipInterface
         parent::__construct($config);
     }
 
+    /************************************************************
+     * FIELD
+     ************************************************************/
+
+    public function getRelationshipField(): RelationalInterface|Field
+    {
+        return $this->field;
+    }
 
     /************************************************************
      * QUERY
@@ -162,8 +176,16 @@ class Relationship extends BaseObject implements RelationshipInterface
      */
     protected function existingRelationships()
     {
+        $query = $this->associationQuery();
+
+        $event = new CancelableQueryEvent([
+            'query' => $query
+        ]);
+
+        $this->trigger(self::EVENT_BUILD_RELATIONSHIPS, $event);
+
         return $this->createRelations(
-            $this->associationQuery()->all()
+            $query->all()
         );
     }
 
