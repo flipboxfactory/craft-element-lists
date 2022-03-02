@@ -25,6 +25,9 @@ class ElementIndexesController extends \craft\controllers\ElementIndexesControll
      */
     public function init()
     {
+        // Disable db cache (query cache doesn't like relations)
+        Craft::$app->getDb()->enableQueryCache = false;
+
         Event::on(
             Element::class,
             Element::EVENT_REGISTER_ACTIONS,
